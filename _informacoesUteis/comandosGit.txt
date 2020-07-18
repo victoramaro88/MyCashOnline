@@ -1,0 +1,2 @@
+git remote add origin https://github.com/victoramaro88/MyCashOnline.git
+git push -u origin master

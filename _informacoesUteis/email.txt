@@ -1,0 +1,11 @@
+E-mail de envio: contatomycash@gmail.com
+Senha: padrão forte. (app: ypvsjqcscfffmyeg)
+
+Configuração:
+
+smtp.gmail.com
+Requer SSL: Sim
+Requer TLS: Sim (se disponível)
+Requer autenticação: Sim
+Porta para SSL: 465
+Porta para TLS/STARTTLS: 587

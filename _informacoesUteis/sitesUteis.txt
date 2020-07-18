@@ -1,0 +1,5 @@
+Chamada de serviços e autenticação:
+https://medium.com/opensanca/angular-2-http-e-autenticação-32c2ed320fa
+
+Angular: Rotas, Guardas e Navegação:
+https://balta.io/blog/angular-rotas-guardas-navegacao

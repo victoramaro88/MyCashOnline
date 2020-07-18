@@ -1,0 +1,76 @@
+<div>
+  <h4>Novo Lançamento</h4>
+
+  <form>
+      <div class="form-row">
+          <div class="form-group col-md-6">
+              <label for="inputEmail4">Email</label>
+              <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
+          </div>
+          <div class="form-group col-md-6">
+              <label for="inputPassword4">Senha</label>
+              <input type="password" class="form-control" id="inputPassword4" placeholder="Senha">
+          </div>
+      </div>
+      <div class="form-group">
+          <label for="inputAddress">Endereço</label>
+          <input type="text" class="form-control" id="inputAddress" placeholder="Rua dos Bobos, nº 0">
+      </div>
+      <div class="form-group">
+          <label for="inputAddress2">Endereço 2</label>
+          <input type="text" class="form-control" id="inputAddress2" placeholder="Apartamento, hotel, casa, etc.">
+      </div>
+      <div class="form-row">
+          <div class="form-group col-md-6">
+              <label for="inputCity">Cidade</label>
+              <input type="text" class="form-control" id="inputCity">
+          </div>
+          <div class="form-group col-md-4">
+              <label for="inputEstado">Estado</label>
+              <select id="inputEstado" class="form-control">
+                  <option selected>Escolher...</option>
+                  <option>...</option>
+              </select>
+          </div>
+          <div class="form-group col-md-2">
+              <label for="inputCEP">CEP</label>
+              <input type="text" class="form-control" id="inputCEP">
+          </div>
+      </div>
+      <div class="form-group">
+          <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="gridCheck">
+              <label class="form-check-label" for="gridCheck">
+                  Clique aqui
+              </label>
+          </div>
+      </div>
+
+      <div class="text-right">
+          <button type="submit" class="btn btn-primary btn-sm">Registrar</button>
+          &nbsp;
+          <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalSair">Cancelar</button>
+      </div>
+  </form>
+
+  <!-- Modal Sair -->
+  <div style="color: black;" class="modal fade" id="modalSair" tabindex="-1" role="dialog" aria-labelledby="modalParaSair" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="modalParaSair">Atenção!</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+              <div class="modal-body">
+                  Deseja cancelar este lançamento? Todas as informações serão perdidas.
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-danger" data-dismiss="modal">Não, voltar para lançamento</button>
+                  <button routerLink='/master/home' type="button" class="btn btn-primary" data-dismiss="modal">Sim, fechar</button>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

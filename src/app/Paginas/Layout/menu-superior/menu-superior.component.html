@@ -1,0 +1,18 @@
+<div class="principal">
+  <nav class="navbar navbar-dark bg-dark">
+      <a class="navbar-brand mr-5" [routerLink]="['/master/home']">MyCash App</a>
+
+      <form class="form-inline">
+          <div class="dropdown">
+              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="fa fa-user-circle fa-lg"></i>
+              </button>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                  <a class="dropdown-item" [routerLink]="['/master/editarUsuario']"><i class="fa fa-user"></i>&nbsp; Meu Perfil</a>
+                  <a class="dropdown-item" [routerLink]="['/master/home']"><i class="fa fa-question-circle"></i>&nbsp; Ajuda</a>
+                  <a class="dropdown-item" [routerLink]="['/login']" (click)="Logout()"><i class="fa fa-sign-out"></i>&nbsp; Sair</a>
+              </div>
+          </div>
+      </form>
+  </nav>
+</div>

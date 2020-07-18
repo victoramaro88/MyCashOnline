@@ -1,0 +1,13 @@
+.divsJumbo {
+  text-align: center;
+  height: 80px;
+  color: white;
+  border-radius: 10px;
+  margin-bottom: 15px;
+
+  font-size: calc( 13px + (14 - 13) * ( (100vw - 400px) / ( 800 - 400) ));
+}
+
+.tituloJumbo {
+  font-size: calc( 13px + (15 - 13) * ( (100vw - 400px) / ( 800 - 400) ));
+}

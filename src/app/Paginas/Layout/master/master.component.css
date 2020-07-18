@@ -1,0 +1,29 @@
+.divPrincipal {
+  min-height: 100vh;
+  background-color: #171d1b;
+  color: white;
+}
+.conteudo {
+  margin-left: 200px;
+  padding-top: 70px;
+  padding-bottom: 50px;
+
+  position: relative;
+  -webkit-transition: 0.5s ease;
+  -moz-transition: 0.5s ease;
+  -o-transition: 0.5s ease;
+  transition: 0.5s ease;
+}
+
+@media (max-width: 767px) {
+  .conteudo {
+      width: 100%;
+      margin-left: 0px;
+      padding-top: 120px;
+
+      -webkit-transition: 0.5s ease;
+      -moz-transition: 0.5s ease;
+      -o-transition: 0.5s ease;
+      transition: 0.5s ease;
+  }
+}

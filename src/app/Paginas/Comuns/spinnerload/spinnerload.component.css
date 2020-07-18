@@ -1,0 +1,24 @@
+.divSpinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  z-index: 1000;
+  position: absolute;
+  color: rgb(255, 0, 0);
+  font-weight: bold;
+}
+
+@keyframes ui-progress-spinner-color {
+  100%,
+  0% {
+      stroke: #ff3123;
+  }
+  50% {
+      stroke: #8b1d15;
+  }
+  100% {
+      stroke: #ff3123;
+  }
+}

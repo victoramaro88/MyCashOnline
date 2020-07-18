@@ -1,0 +1,66 @@
+<div *ngIf="spinnerBlock">
+  <app-spinnerload></app-spinnerload>
+</div>
+<div class="divPrincipal">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-4 col-lg-4 col-md-3 col-sm-2 col-1"></div>
+      <div class="col-xs-4 col-lg-4 col-md-6 col-sm-8 col-10 card card-container">
+        <p-messages [(value)]="msgs" [closable]="false"></p-messages>
+        <div class="divUsuarioInativo" *ngIf="divReenvioEmail">
+          Caso não tenha recebido o e-mail, clique<button type="button" class="btn btn-link" (click)="ReenviaEmail()">aqui</button>
+        </div>
+        <div class="form-group text-center mt-3 mb-2 tituloPagina">
+          <p>Login do Sistema</p>
+        </div>
+        <form [formGroup]="formLogin" (ngSubmit)="onSubmit()" #loginForm="ngForm">
+          <div class="form-group input-group mb-3">
+            <div class="form-group input-group col-12">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="email"><fa-icon [icon]="faUser"></fa-icon> </span>
+              </div>
+              <input type="email" class="form-control" placeholder="E-mail" aria-label="Email" aria-describedby="email" formControlName="usuEmai" [ngClass]="{ 'is-invalid': (submitted || f.usuEmai.touched)  && f.usuEmai.errors }">
+            </div>
+            <div *ngIf="(submitted || f.usuEmai.touched)  && f.usuEmai.errors" class="divErroValidacao">
+              <div *ngIf="f.usuEmai.errors.required">
+                E-mail obrigatório!
+              </div>
+              <div *ngIf="f.usuEmai.errors.pattern">
+                E-mail inválido!
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group input-group mb-1">
+            <div class="form-group input-group col-12">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="senha"><fa-icon [icon]="faKey"></fa-icon> </span>
+              </div>
+              <input type="password" class="form-control" placeholder="Senha" aria-label="Senha" aria-describedby="senha" formControlName="usuSenh" [ngClass]="{ 'is-invalid': (submitted || f.usuSenh.touched)  && f.usuSenh.errors }">
+            </div>
+            <div *ngIf="(submitted || f.usuSenh.touched) && f.usuSenh.errors" class="divErroValidacao">
+              <p *ngIf="f.usuSenh.errors.required">
+                Senha é obrigatória.
+              </p>
+              <p *ngIf="f.usuSenh.errors.minlength">
+                Senha deve ter no mínimo 6 caracters.
+              </p>
+            </div>
+          </div>
+          <div class="form-group mb-1 pl-3 pr-3">
+            <div class="row align-items-center">
+              <div class="form-group col-3">
+                <button type="submit" class="btn btn-primary">Acessar</button>
+              </div>
+              <div class="form-group text-right col-9 linksRegistro">
+                <a routerLink="/usuario">Cadastre-se</a><br>
+                <a routerLink="/master/home">Esqueci a senha</a>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="col-xs-4 col-lg-4 col-md-3col-sm-2 col-1"></div>
+    </div>
+  </div>
+</div>

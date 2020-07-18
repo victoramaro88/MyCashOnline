@@ -1,0 +1,15 @@
+.divPrincipal {
+  position: fixed;
+  bottom: 0;
+  margin-bottom: -1px;
+  width: 100%;
+  height: 33px;
+  z-index: 1000;
+  background-color: rgb(78, 90, 83);
+  color: rgb(172, 172, 172);
+}
+
+.rodape {
+  margin-top: 8px;
+  font-size: 11px;
+}

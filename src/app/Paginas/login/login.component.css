@@ -1,0 +1,31 @@
+.divPrincipal {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #171d1b;
+}
+
+.tituloPagina {
+  font-size: calc( 20px + (25 - 20) * ( (100vw - 400px) / ( 800 - 400) ));
+}
+
+.linksRegistro {
+  font-size: calc( 10px + (12 - 10) * ( (100vw - 400px) / ( 800 - 400) ));
+}
+
+.divErroValidacao {
+  margin-left: 15px;
+  margin-top: -10px;
+  font-size: calc( 10px + (12 - 10) * ( (100vw - 400px) / ( 800 - 400) ));
+  color: red;
+}
+
+.divUsuarioInativo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  text-align: center;
+  background-color: rgb(252, 170, 170);
+}
