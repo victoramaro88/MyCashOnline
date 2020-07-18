@@ -13,20 +13,33 @@ padding: 10px;;
 font-size: small;
 }
 
-.divSucesso {
-display: flex;
-align-items: center;
-justify-content: center;
-min-height: 100vh;
-width: 100%;
-z-index: 1000;
-position: absolute;
-font-weight: bold;
-background-color: rgba(0, 0, 0, 0.507);
-}
+/* .divSucesso {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100%;
+  z-index: 1000;
+  position: absolute;
+  font-weight: bold;
+  background-color: rgba(0, 0, 0, 0.507);
+  } */
+
+  .divSucesso {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  position: absolute;
+  font-weight: bold;
+  background-color: rgba(0, 0, 0, 0.507);
+  }
 
 .mensagemSucesso {
-height: 40vh;
+height: 20vh;
 width: 80vw;
 background-color: rgb(137, 255, 137);
 color: black;

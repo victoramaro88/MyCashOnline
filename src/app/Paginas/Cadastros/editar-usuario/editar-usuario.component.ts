@@ -243,9 +243,18 @@ export class EditarUsuarioComponent implements OnInit {
 
       this.http.ManterUsuario(this.dadosUsuarioModel).subscribe((ret: string) => {
         if (ret !== undefined) {
-          this.travaBotoes = true;
+          // this.travaBotoes = true;
           this.spinnerBlock = false;
-          this.sucessoCadastro = true;
+
+          this.msgs = [];
+          this.msgs.push({severity: 'success', summary: 'Dados atualizados com Sucesso!', detail: ''});
+          scrollTo(0,0);
+          setTimeout(() => {
+            this.msgs = [];
+            // this.router.navigate(['/master/home']);
+          }, 3000);
+
+          // this.sucessoCadastro = true;
         }
       }, (err) => {
         this.mensagemErro = '';
