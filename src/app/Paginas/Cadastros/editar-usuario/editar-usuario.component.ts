@@ -8,6 +8,7 @@ import { EnderecoModel } from 'src/app/Models/usuarios/endereco.model';
 import { DadosUsuarioModel } from 'src/app/Models/usuarios/dadosusuario.model';
 import { UsuarioModel } from 'src/app/Models/usuarios/usuario.model';
 import { PerfilUsuarioModel } from 'src/app/Models/usuarios/perfilusuario.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-editar-usuario',
@@ -25,13 +26,14 @@ export class EditarUsuarioComponent implements OnInit {
   perfilUsuarioModel: PerfilUsuarioModel = new PerfilUsuarioModel();
   dadosUsuarioModel: DadosUsuarioModel = new DadosUsuarioModel();
   msgs: Message[] = [];
-  emailJaCadastrado: boolean = false;
-  cpfJaCadastrado: boolean = false;
-  spinnerBlock: boolean = false;
-  sucessoCadastro: boolean = false;
-  falhaCadastro: boolean = false;
-  travaBotoes: boolean = false;
-  mensagemErro: string = '';
+  emailJaCadastrado = false;
+  spinnerBlock = false;
+  sucessoCadastro = false;
+  falhaCadastro = false;
+  travaBotoes = false;
+  mensagemErro = '';
+  emailUsuario = '';
+  idEndereco = 0;
   estados = [
     {value: 'AC'},
     {value: 'AL'},
@@ -65,24 +67,26 @@ export class EditarUsuarioComponent implements OnInit {
   constructor(
     private http: RequisicoesHttpService,
     private formBuilder: FormBuilder,
+    private router: Router
     ) { }
 
     ngOnInit(): void {
       this.IniciaValidacaoForm();
 
       if (sessionStorage.getItem('idUsuario') != null) {
-        console.log(sessionStorage.getItem('idUsuario'));
         this.http.ListarUsuarios(sessionStorage.getItem('idUsuario'))
         .subscribe((ret: DadosUsuarioModel) => {
           if (ret !== undefined || ret != null) {
-            console.log(ret);
+            // console.log(ret);
             this.f.usuNome.setValue(ret[0].usuarioModel.usuNome);
             this.f.usuNCPF.setValue(ret[0].usuarioModel.usuNCPF);
             this.formCadastro.controls.usuNCPF.disable();
             this.f.usuNasc.setValue(ret[0].usuarioModel.usuNasc.toString().substring(0, 10));
             this.f.usuEmail.setValue(ret[0].usuarioModel.usuEmail);
-            this.formCadastro.controls.usuEmail.disable();
+            this.emailUsuario = ret[0].usuarioModel.usuEmail;
             this.f.usuSexo.setValue(ret[0].usuarioModel.usuSexo);
+            this.f.usuCttEma.setValue(ret[0].usuarioModel.usuCttEma);
+            this.idEndereco = ret[0].enderecoModel.endCodi;
             this.f.endNCEP.setValue(ret[0].enderecoModel.endNCEP);
             this.f.endLogr.setValue(ret[0].enderecoModel.endLogr);
             this.f.endNume.setValue(ret[0].enderecoModel.endNume);
@@ -170,24 +174,16 @@ export class EditarUsuarioComponent implements OnInit {
     }
 
     ConsultaUsuarioByEmailCPF(emailCPFUsuario: string) {
-      if(emailCPFUsuario.length > 0) {
-        if(emailCPFUsuario.indexOf('@') >= 0) {
-          this.http.ConsultaUsuarioByEmailCPF(emailCPFUsuario)
-          .subscribe((ret: boolean) => {
-            this.emailJaCadastrado = ret;
-          },(err)=> {
-            this.msgs = [];
-            this.msgs.push({severity:'error', summary:'Erro: ', detail: err.message});
-          });
-        } else {
-          this.http.ConsultaUsuarioByEmailCPF(emailCPFUsuario)
-          .subscribe((ret: boolean) => {
-            this.cpfJaCadastrado = ret;
-          },(err)=> {
-            this.msgs = [];
-            this.msgs.push({severity:'error', summary:'Erro: ', detail: err.message});
-          });
-        }
+      if (emailCPFUsuario.length > 0 && emailCPFUsuario !== this.emailUsuario) {
+        this.http.ConsultaUsuarioByEmailCPF(emailCPFUsuario)
+        .subscribe((ret: boolean) => {
+          this.emailJaCadastrado = ret;
+        }, (err) => {
+          this.msgs = [];
+          this.msgs.push({severity: 'error', summary: 'Erro: ', detail: err.message});
+        });
+      } else {
+        this.emailJaCadastrado = false;
       }
     }
 
@@ -196,12 +192,17 @@ export class EditarUsuarioComponent implements OnInit {
       this.travaBotoes = false;
     }
 
+    FechaJanelaSucesso() {
+      this.sucessoCadastro = false;
+      this.router.navigate(['/master/home']);
+    }
+
     SalvarNovoRegistro() {
       this.submitted = true;
       if (this.formCadastro.invalid) {
         return;
       }
-      // if (this.cpfJaCadastrado || this.emailJaCadastrado) { return }
+      if (this.emailJaCadastrado) { return; }
       this.spinnerBlock = true;
 
       // ->Dados do Usuário
@@ -218,7 +219,7 @@ export class EditarUsuarioComponent implements OnInit {
       this.usuarioModel.usuCttEma  = this.f.usuCttEma.value;
 
       // ->Dados do Endereço
-      this.enderecoModel.endCodi = 0;
+      this.enderecoModel.endCodi = this.idEndereco;
       this.enderecoModel.usuCodi = +sessionStorage.getItem('idUsuario');
       this.enderecoModel.endNCEP = this.f.endNCEP.value;
       this.enderecoModel.endLogr = this.f.endLogr.value;
@@ -237,21 +238,21 @@ export class EditarUsuarioComponent implements OnInit {
       this.dadosUsuarioModel.enderecoModel = this.enderecoModel;
       this.dadosUsuarioModel.perfilUsuarioModel = this.perfilUsuarioModel;
 
-      console.log(this.dadosUsuarioModel);
-      this.spinnerBlock = false;
+      // console.log(this.dadosUsuarioModel);
+      // this.spinnerBlock = false;
 
-      // this.http.ManterUsuario(this.dadosUsuarioModel).subscribe((ret: string) => {
-      //   if(ret != undefined) {
-      //     this.travaBotoes = true;
-      //     this.spinnerBlock = false;
-      //     this.sucessoCadastro = true;
-      //   }
-      // },(err)=> {
-      //   this.mensagemErro = '';
-      //   this.mensagemErro = err.error;
-      //   this.spinnerBlock = false;
-      //   this.falhaCadastro = true;
-      //   this.travaBotoes = true;
-      // });
+      this.http.ManterUsuario(this.dadosUsuarioModel).subscribe((ret: string) => {
+        if (ret !== undefined) {
+          this.travaBotoes = true;
+          this.spinnerBlock = false;
+          this.sucessoCadastro = true;
+        }
+      }, (err) => {
+        this.mensagemErro = '';
+        this.mensagemErro = err.error;
+        this.spinnerBlock = false;
+        this.falhaCadastro = true;
+        this.travaBotoes = true;
+      });
     }
   }

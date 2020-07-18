@@ -1,3 +1,4 @@
+import { environment } from 'src/environments/environment';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -6,10 +7,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./rodape.component.css']
 })
 export class RodapeComponent implements OnInit {
+  versSistema = '';
 
   constructor() { }
 
   ngOnInit(): void {
+    this.versSistema = environment.versaoSistema;
   }
 
 }

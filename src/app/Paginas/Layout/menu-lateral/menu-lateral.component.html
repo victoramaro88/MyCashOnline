@@ -1,72 +1,72 @@
 <div class="divPrincipal">
   <!-- MENU LATERAL -->
   <div class="nav-side-menu">
-      <div class="brand">MENU</div>
-      <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
+    <div class="brand">MENU</div>
+    <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
 
-      <div class="menu-list">
+    <div class="menu-list">
 
-          <ul id="menu-content" class="menu-content collapse out">
-              <!-- <li [routerLinkActive]="['active']"> -->
-                  <li (click)="AtivaMenu('Dashboard')" [ngClass]="{'active' : menuDashboard}">
-                      <a [routerLink]="['/master/home']">
-                          <i class="fa fa-dashboard fa-lg"></i> Dashboard
-                      </a>
-                  </li>
+      <ul id="menu-content" class="menu-content collapse out">
+        <!-- <li [routerLinkActive]="['active']"> -->
+          <li (click)="AtivaMenu('Dashboard')" [ngClass]="{'active' : menuDashboard}">
+            <a [routerLink]="['/master/home']">
+              <i class="fa fa-dashboard fa-lg"></i> Dashboard
+            </a>
+          </li>
 
-                  <li (click)="AtivaMenu('Cadastro')" data-toggle="collapse" data-target="#cadastros" class="collapsed" [ngClass]="{'active' : menuCadastro}">
-                      <a><fa-icon [icon]="faFolderPlus" class="fa-lg ml-2 mr-2"></fa-icon> Cadastros <span class="arrow"></span></a>
-                  </li>
-                  <ul class="sub-menu collapse" id="cadastros">
-                      <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}">
-                          <a href="#" [routerLink]="['/master/cadCartao']">Cartão de Crédito</a>
-                      </li>
-                      <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}">
-                          <a [routerLink]="['/master/teste']">Teste</a>
-                      </li>
-                      <li><a>Buttons</a></li>
-                      <li><a>Tabs & Accordions</a></li>
-                      <li><a>Typography</a></li>
-                  </ul>
-                  <!-- </li> -->
-
-
-                  <li data-toggle="collapse" data-target="#service" class="collapsed">
-                      <a><i class="fa fa-globe fa-lg"></i> Services <span class="arrow"></span></a>
-                  </li>
-                  <ul class="sub-menu collapse" id="service">
-                      <li>New Service 1</li>
-                      <li>New Service 2</li>
-                      <li>New Service 3</li>
-                  </ul>
+          <li (click)="AtivaMenu('Cadastro')" data-toggle="collapse" data-target="#cadastros" class="collapsed" [ngClass]="{'active' : menuCadastro}">
+            <a><fa-icon [icon]="faFolderPlus" class="fa-lg ml-2 mr-2"></fa-icon> Cadastros <span class="arrow"></span></a>
+          </li>
+          <ul class="sub-menu collapse" id="cadastros">
+            <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}">
+              <a href="#" [routerLink]="['/master/cadCartao']">Cartão de Crédito</a>
+            </li>
+            <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}">
+              <a [routerLink]="['/master/teste']">Teste</a>
+            </li>
+            <li><a>Buttons</a></li>
+            <li><a>Tabs & Accordions</a></li>
+            <li><a>Typography</a></li>
+          </ul>
+          <!-- </li> -->
 
 
-                  <li data-toggle="collapse" data-target="#new" class="collapsed">
-                      <a><i class="fa fa-car fa-lg"></i> New <span class="arrow"></span></a>
-                  </li>
-                  <ul class="sub-menu collapse" id="new">
-                      <li>New New 1</li>
-                      <li>New New 2</li>
-                      <li>New New 3</li>
-                  </ul>
+          <li data-toggle="collapse" data-target="#service" class="collapsed">
+            <a><i class="fa fa-globe fa-lg"></i> Services <span class="arrow"></span></a>
+          </li>
+          <ul class="sub-menu collapse" id="service">
+            <li>New Service 1</li>
+            <li>New Service 2</li>
+            <li>New Service 3</li>
+          </ul>
 
 
-                  <li>
-                      <a>
-                          <i class="fa fa-user fa-lg"></i> Profile
-                      </a>
-                  </li>
+          <li data-toggle="collapse" data-target="#new" class="collapsed">
+            <a><i class="fa fa-car fa-lg"></i> New <span class="arrow"></span></a>
+          </li>
+          <ul class="sub-menu collapse" id="new">
+            <li>New New 1</li>
+            <li>New New 2</li>
+            <li>New New 3</li>
+          </ul>
 
-                  <li>
-                      <a>
-                          <i class="fa fa-users fa-lg"></i> Users
-                      </a>
-                  </li>
-              </ul>
-          </div>
+
+          <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}">
+            <a href="#" [routerLink]="['/master/editarUsuario']">
+              <i class="fa fa-user fa-lg"></i> Perfil
+            </a>
+          </li>
+
+          <li>
+            <a>
+              <i class="fa fa-users fa-lg"></i> Users
+            </a>
+          </li>
+        </ul>
       </div>
+    </div>
 
 
-      <!-- TESTES -->
+    <!-- TESTES -->
 
   </div>

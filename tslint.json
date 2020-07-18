@@ -1,4 +1,8 @@
 {
+  "compilerOptions": {
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
+  },
   "extends": "tslint:recommended",
   "rules": {
     "array-type": false,
