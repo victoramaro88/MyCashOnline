@@ -18,7 +18,7 @@ import { PerfilUsuarioModel } from 'src/app/Models/usuarios/perfilusuario.model'
 export class UsuarioComponent implements OnInit {
   @ViewChild('inputNumLogr', {static: false}) inputNumLogr: ElementRef;
   @ViewChild('inputLogradouro', {static: false}) inputLogradouro: ElementRef;
-
+  
   formCadastro: FormGroup;
   submitted = false;
   usuarioModel: UsuarioModel = new UsuarioModel();
@@ -62,17 +62,20 @@ export class UsuarioComponent implements OnInit {
     {value: 'SE'},
     {value: 'TO'}
   ];
-
+  
   constructor(
     private http: RequisicoesHttpService,
     private formBuilder: FormBuilder, ) { }
-
+    
     ngOnInit(): void {
       this.IniciaValidacaoForm();
+      // this.msgs = [];
+      // this.msgs.push({severity: 'success', summary: 'Cadastro realizado com Sucesso!',
+      // detail: '\n\nFoi enviado um e-mail com um link para que você possa ativar a sua conta, após ativá-la, basta fazer o login e acessar o sistema.'});
     }
-
+    
     get f() { return this.formCadastro.controls; }
-
+    
     IniciaValidacaoForm() {
       this.formCadastro = this.formBuilder.group({
         usuNome: ['', Validators.required],
@@ -95,7 +98,7 @@ export class UsuarioComponent implements OnInit {
         validator: ComparaSenha('usuSenha', 'usuConfirmaSenha')
       });
     }
-
+    
     ValidaEnderecoPesquisado(valor: boolean) {
       if (valor) {
         this.formCadastro.controls.endLogr.disable();
@@ -109,14 +112,14 @@ export class UsuarioComponent implements OnInit {
         this.formCadastro.controls.endEsta.enable();
       }
     }
-
+    
     LimpaEndereco() {
       this.f.endLogr.setValue('');
       this.f.endBairr.setValue('');
       this.f.endCidad.setValue('');
       this.f.endEsta.setValue('');
     }
-
+    
     BuscaCEP(vCEP: string) {
       this.LimpaEndereco();
       if (vCEP !== undefined && vCEP.length === 8) {
@@ -142,7 +145,7 @@ export class UsuarioComponent implements OnInit {
         this.ValidaEnderecoPesquisado(false);
       }
     }
-
+    
     ConsultaUsuarioByEmailCPF(emailCPFUsuario: string) {
       if(emailCPFUsuario.length > 0) {
         if(emailCPFUsuario.indexOf('@') >= 0) {
@@ -164,12 +167,12 @@ export class UsuarioComponent implements OnInit {
         }
       }
     }
-
+    
     FechaJanelaErro() {
       this.falhaCadastro = false;
       this.travaBotoes = false;
     }
-
+    
     SalvarNovoRegistro() {
       this.submitted = true;
       if (this.formCadastro.invalid) {
@@ -177,7 +180,7 @@ export class UsuarioComponent implements OnInit {
       }
       if(this.cpfJaCadastrado || this.emailJaCadastrado) {return}
       this.spinnerBlock = true;
-
+      
       // ->Dados do Usuário
       this.usuarioModel.usuCodi = 0;
       this.usuarioModel.usuNome = this.f.usuNome.value;
@@ -190,7 +193,7 @@ export class UsuarioComponent implements OnInit {
       this.usuarioModel.usuValido  = false;
       this.usuarioModel.usuSexo  = this.f.usuSexo.value;
       this.usuarioModel.usuCttEma  = this.f.usuCttEma.value;
-
+      
       // ->Dados do Endereço
       this.enderecoModel.endCodi = 0;
       this.enderecoModel.usuCodi = 0;
@@ -201,25 +204,33 @@ export class UsuarioComponent implements OnInit {
       this.enderecoModel.endBairr = this.f.endBairr.value;
       this.enderecoModel.endCidad = this.f.endCidad.value;
       this.enderecoModel.endEsta = this.f.endEsta.value;
-
+      
       // ->Dados do Perfil do Usuário
       this.perfilUsuarioModel.perCodi = 2; // ->O cadastro será sempre 2 (Usuário Sistema).
       this.perfilUsuarioModel.usuCodi = 0;
-
+      
       // ->Preenchendo as informações para a Model Principal
       this.dadosUsuarioModel.usuarioModel = this.usuarioModel;
       this.dadosUsuarioModel.enderecoModel = this.enderecoModel;
       this.dadosUsuarioModel.perfilUsuarioModel = this.perfilUsuarioModel;
-
+      
       // console.log(this.dadosUsuarioModel);
-
+      
       this.http.ManterUsuario(this.dadosUsuarioModel).subscribe((ret: string) => {
-        if(ret != undefined) {
-          this.travaBotoes = true;
+        if (ret !== undefined) {
           this.spinnerBlock = false;
+          
+          // this.msgs = [];
+          // this.msgs.push({severity: 'success', summary: 'Sucesso!', detail: 'Cadastro realizado com Sucesso! /n '});
+          // scrollTo(0, 0);
+          // setTimeout(() => {
+          //   this.msgs = [];
+          // }, 3000);
+          
+          this.travaBotoes = true;
           this.sucessoCadastro = true;
         }
-      },(err)=> {
+      }, (err) => {
         this.mensagemErro = '';
         this.mensagemErro = err.error;
         this.spinnerBlock = false;
@@ -228,3 +239,4 @@ export class UsuarioComponent implements OnInit {
       });
     }
   }
+  

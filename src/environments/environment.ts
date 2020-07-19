@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  // BASE_URL: 'http://mycashapp.gearhostpreview.com'
-  BASE_URL: 'http://localhost:60683',
+  BASE_URL: 'http://mycashapp.gearhostpreview.com',
+  // BASE_URL: 'http://localhost:60683',
   versaoSistema: 'Desenvolvimento'
 };
 

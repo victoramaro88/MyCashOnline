@@ -1,27 +1,6 @@
 <div *ngIf="spinnerBlock">
   <app-spinnerload></app-spinnerload>
 </div>
-<!-- Div para sucesso de cadastro -->
-  <div class="divSucesso" *ngIf="sucessoCadastro">
-    <div class="mensagemSucesso">
-      <h4>CADASTRO ALTERADO COM SUCESSO!</h4>
-      <br>
-      <button (click)="FechaJanelaSucesso()" type="button" class="btn btn-success btn-lg">Fechar</button>
-    </div>
-  </div>
-
-  <!-- Div para falha no cadastro -->
-  <div class="divSucesso" *ngIf="falhaCadastro">
-    <div class="mensagemErro">
-      <h4>FALHA AO ALTERAR O CADASTRO</h4>
-      <p class="p-3">Ocorreu o seguinte erro para efetuar a alteração no cadastro:</p>
-      <p>"{{mensagemErro}}"</p>
-      <p>Contate o administrador do sistema.</p>
-      <a href="mailto:contatomycash@gmail.com" class="btn btn-primary btn-lg btn-warning" role="button" aria-pressed="true">Contate-nos</a>
-      &nbsp;
-      <button routerLinkActive="router-link-active" (click)="FechaJanelaErro()" type="button" class="btn btn-danger btn-lg">Cancelar</button>
-    </div>
-  </div>
 
   <div class="container-fluid divPrincipal">
     <div class="row divPrincipal">
@@ -195,9 +174,9 @@
 
             <!-- BOTÕES -->
             <div class="text-right pb-4">
-              <button [disabled]="travaBotoes" type="submit" class="btn btn-primary btn-sm">Registrar</button>
+              <button type="submit" class="btn btn-primary btn-sm">Registrar</button>
               &nbsp;
-              <button [disabled]="travaBotoes" type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalSair">Cancelar</button>
+              <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalSair">Cancelar</button>
             </div>
           </form>
         </div>

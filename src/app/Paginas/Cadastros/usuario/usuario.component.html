@@ -26,9 +26,9 @@
 <div class="container-fluid divPrincipal">
   <div class="row divPrincipal">
     <div class="col-12 pt-3">
+      <p-messages [(value)]="msgs"></p-messages>
       <h4>Cadastro de Novo Usuário</h4>
       <div class="mt-4">
-        <p-messages [(value)]="msgs" [closable]="false"></p-messages>
         <form [formGroup]="formCadastro" (ngSubmit)="SalvarNovoRegistro()" #cadastroForm="ngForm">
           <div class="form-row">
 
