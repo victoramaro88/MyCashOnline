@@ -1,32 +1,15 @@
 <div *ngIf="spinnerBlock">
   <app-spinnerload></app-spinnerload>
 </div>
-<!-- Div para sucesso de cadastro -->
-<div class="divSucesso" *ngIf="sucessoCadastro">
-  <div class="mensagemSucesso">
-    <h4>CADASTRO REALIZADO COM SUCESSO!</h4>
-    <p class="p-3">Foi enviado um e-mail com um link para que você possa ativar a sua conta, após ativá-la, basta fazer o login e acessar o sistema.</p>
-    <button routerLink="/login" type="button" class="btn btn-success btn-lg">Página de Login</button>
-  </div>
-</div>
-
-<!-- Div para falha no cadastro -->
-<div class="divSucesso" *ngIf="falhaCadastro">
-  <div class="mensagemErro">
-    <h4>FALHA AO REALIZAR O CADASTRO</h4>
-    <p class="p-3">Ocorreu o seguinte erro para efetuar o cadastro:</p>
-    <p>"{{mensagemErro}}"</p>
-    <p>Contate o administrador do sistema.</p>
-    <a href="mailto:contatomycash@gmail.com" class="btn btn-primary btn-lg btn-warning" role="button" aria-pressed="true">Contate-nos</a>
-    &nbsp;
-    <button routerLinkActive="router-link-active"  (click)="FechaJanelaErro()" type="button" class="btn btn-danger btn-lg">Cancelar</button>
-  </div>
-</div>
 
 <div class="container-fluid divPrincipal">
   <div class="row divPrincipal">
     <div class="col-12 pt-3">
       <p-messages [(value)]="msgs"></p-messages>
+      <div *ngIf="btnCadastroHome"  class="text-center">
+        <button routerLink="/login" type="button" class="btn btn-success">Voltar para a página de Login</button>
+        <br><br>
+      </div>
       <h4>Cadastro de Novo Usuário</h4>
       <div class="mt-4">
         <form [formGroup]="formCadastro" (ngSubmit)="SalvarNovoRegistro()" #cadastroForm="ngForm">
@@ -227,9 +210,9 @@
 
           <!-- BOTÕES -->
           <div class="text-right pb-4">
-            <button [disabled]="travaBotoes" type="submit" class="btn btn-primary btn-sm">Registrar</button>
+            <button type="submit" class="btn btn-primary btn-sm">Registrar</button>
             &nbsp;
-            <button [disabled]="travaBotoes" type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalSair">Cancelar</button>
+            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalSair">Cancelar</button>
           </div>
         </form>
       </div>

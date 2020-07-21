@@ -15,6 +15,8 @@ import {CalendarModule} from 'primeng/calendar';
 import {BlockUIModule} from 'primeng/blockui';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
 import { PanelMenuModule } from 'primeng/panelmenu';
+import { TableModule } from 'primeng/table';
+import { ToastModule } from 'primeng/toast';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
@@ -30,6 +32,7 @@ import { HomeComponent } from './Paginas/home/home.component';
 import { CadCartaoComponent } from './Paginas/Cadastros/cad-cartao/cad-cartao.component';
 import { NovoLancamentoComponent } from './Paginas/novo-lancamento/novo-lancamento.component';
 import { EditarUsuarioComponent } from './Paginas/Cadastros/editar-usuario/editar-usuario.component';
+import { IntFinUsrComponent } from './Paginas/Cadastros/int-fin-usr/int-fin-usr.component';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -49,6 +52,7 @@ const maskConfig: Partial<IConfig> = {
     CadCartaoComponent,
     NovoLancamentoComponent,
     EditarUsuarioComponent,
+    IntFinUsrComponent,
   ],
   imports: [
     BrowserModule,
@@ -68,6 +72,8 @@ const maskConfig: Partial<IConfig> = {
     NgxMaskModule.forRoot(maskConfig),
     BlockUIModule,
     ProgressSpinnerModule,
+    TableModule,
+    ToastModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

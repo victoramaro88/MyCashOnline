@@ -18,7 +18,7 @@ import { Router } from '@angular/router';
 export class EditarUsuarioComponent implements OnInit {
   @ViewChild('inputNumLogr', {static: false}) inputNumLogr: ElementRef;
   @ViewChild('inputLogradouro', {static: false}) inputLogradouro: ElementRef;
-  
+
   formCadastro: FormGroup;
   submitted = false;
   usuarioModel: UsuarioModel = new UsuarioModel();
@@ -60,16 +60,17 @@ export class EditarUsuarioComponent implements OnInit {
     {value: 'SE'},
     {value: 'TO'}
   ];
-  
+
   constructor(
     private http: RequisicoesHttpService,
     private formBuilder: FormBuilder,
     private router: Router
     ) { }
-    
+
     ngOnInit(): void {
+      this.spinnerBlock = true;
       this.IniciaValidacaoForm();
-      
+
       if (sessionStorage.getItem('idUsuario') != null) {
         this.http.ListarUsuarios(sessionStorage.getItem('idUsuario'))
         .subscribe((ret: DadosUsuarioModel) => {
@@ -91,16 +92,20 @@ export class EditarUsuarioComponent implements OnInit {
             this.f.endBairr.setValue(ret[0].enderecoModel.endBairr);
             this.f.endCidad.setValue(ret[0].enderecoModel.endCidad);
             this.f.endEsta.setValue(ret[0].enderecoModel.endEsta);
+
+            this.spinnerBlock = false;
           }
         }, (err) => {
           this.msgs = [];
           this.msgs.push({severity: 'error', summary: 'Erro: ', detail: err.message});
+
+          this.spinnerBlock = false;
         });
       }
     }
-    
+
     get f() { return this.formCadastro.controls; }
-    
+
     IniciaValidacaoForm() {
       this.formCadastro = this.formBuilder.group({
         usuNome: ['', Validators.required],
@@ -122,7 +127,7 @@ export class EditarUsuarioComponent implements OnInit {
         validator: ComparaSenha('usuSenha', 'usuConfirmaSenha')
       });
     }
-    
+
     ValidaEnderecoPesquisado(valor: boolean) {
       if (valor) {
         this.formCadastro.controls.endLogr.disable();
@@ -136,14 +141,14 @@ export class EditarUsuarioComponent implements OnInit {
         this.formCadastro.controls.endEsta.enable();
       }
     }
-    
+
     LimpaEndereco() {
       this.f.endLogr.setValue('');
       this.f.endBairr.setValue('');
       this.f.endCidad.setValue('');
       this.f.endEsta.setValue('');
     }
-    
+
     BuscaCEP(vCEP: string) {
       this.LimpaEndereco();
       if (vCEP !== undefined && vCEP.length === 8) {
@@ -169,7 +174,7 @@ export class EditarUsuarioComponent implements OnInit {
         this.ValidaEnderecoPesquisado(false);
       }
     }
-    
+
     ConsultaUsuarioByEmailCPF(emailCPFUsuario: string) {
       if (emailCPFUsuario.length > 0 && emailCPFUsuario !== this.emailUsuario) {
         this.http.ConsultaUsuarioByEmailCPF(emailCPFUsuario)
@@ -183,7 +188,7 @@ export class EditarUsuarioComponent implements OnInit {
         this.emailJaCadastrado = false;
       }
     }
-    
+
     SalvarNovoRegistro() {
       this.submitted = true;
       if (this.formCadastro.invalid) {
@@ -191,7 +196,7 @@ export class EditarUsuarioComponent implements OnInit {
       }
       if (this.emailJaCadastrado) { return; }
       this.spinnerBlock = true;
-      
+
       // ->Dados do Usuário
       this.usuarioModel.usuCodi = +sessionStorage.getItem('idUsuario');
       this.usuarioModel.usuNome = this.f.usuNome.value;
@@ -204,7 +209,7 @@ export class EditarUsuarioComponent implements OnInit {
       this.usuarioModel.usuValido  = false;
       this.usuarioModel.usuSexo  = this.f.usuSexo.value;
       this.usuarioModel.usuCttEma  = this.f.usuCttEma.value;
-      
+
       // ->Dados do Endereço
       this.enderecoModel.endCodi = this.idEndereco;
       this.enderecoModel.usuCodi = +sessionStorage.getItem('idUsuario');
@@ -215,19 +220,19 @@ export class EditarUsuarioComponent implements OnInit {
       this.enderecoModel.endBairr = this.f.endBairr.value;
       this.enderecoModel.endCidad = this.f.endCidad.value;
       this.enderecoModel.endEsta = this.f.endEsta.value;
-      
+
       // ->Dados do Perfil do Usuário
       this.perfilUsuarioModel.perCodi = 2; // ->O cadastro será sempre 2 (Usuário Sistema).
       this.perfilUsuarioModel.usuCodi = +sessionStorage.getItem('idUsuario');
-      
+
       // ->Preenchendo as informações para a Model Principal
       this.dadosUsuarioModel.usuarioModel = this.usuarioModel;
       this.dadosUsuarioModel.enderecoModel = this.enderecoModel;
       this.dadosUsuarioModel.perfilUsuarioModel = this.perfilUsuarioModel;
-      
+
       // console.log(this.dadosUsuarioModel);
       // this.spinnerBlock = false;
-      
+
       this.http.ManterUsuario(this.dadosUsuarioModel).subscribe((ret: string) => {
         if (ret !== undefined) {
           this.spinnerBlock = false;
@@ -252,4 +257,3 @@ export class EditarUsuarioComponent implements OnInit {
       });
     }
   }
-  

@@ -8,6 +8,7 @@ import { HomeComponent } from './Paginas/home/home.component';
 import { CadCartaoComponent } from './Paginas/Cadastros/cad-cartao/cad-cartao.component';
 import { NovoLancamentoComponent } from './Paginas/novo-lancamento/novo-lancamento.component';
 import { EditarUsuarioComponent } from './Paginas/Cadastros/editar-usuario/editar-usuario.component';
+import { IntFinUsrComponent } from './Paginas/Cadastros/int-fin-usr/int-fin-usr.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -18,6 +19,7 @@ const routes: Routes = [
   children: [
     { path: 'home', component: HomeComponent },
     { path: 'cadCartao', component: CadCartaoComponent },
+    { path: 'instFinUsr', component: IntFinUsrComponent },
     { path: 'novoLancamento', component: NovoLancamentoComponent },
     { path: 'editarUsuario', component: EditarUsuarioComponent }
   ],
