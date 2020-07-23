@@ -2,205 +2,205 @@
   <app-spinnerload></app-spinnerload>
 </div>
 
-  <div class="container-fluid divPrincipal">
-    <div class="row divPrincipal">
-      <div class="col-12 pt-3">
-        <p-messages [(value)]="msgs" [closable]="false"></p-messages>
-        <h4>Meus dados:</h4>
-        <div class="mt-4">
-          <form [formGroup]="formCadastro" (ngSubmit)="SalvarNovoRegistro()" #cadastroForm="ngForm">
-            <div class="form-row">
+<div class="container-fluid divPrincipal">
+  <div class="row divPrincipal">
+    <div class="col-12 pt-3">
+      <p-messages [(value)]="msgs" [closable]="false"></p-messages>
+      <h4>Meus dados:</h4>
+      <div class="mt-4">
+        <form [formGroup]="formCadastro" (ngSubmit)="SalvarNovoRegistro()" #cadastroForm="ngForm">
+          <div class="form-row">
 
-              <div class="form-group col-md-6 col-sm-8">
-                <label for="inputNome">Nome</label>
-                <input type="text" class="form-control" id="inputNome" placeholder="Nome" formControlName="usuNome" required [ngClass]="{ 'is-invalid': (submitted || f.usuNome.touched)  && f.usuNome.errors }">
-                <div *ngIf="(submitted || f.usuNome.touched)  && f.usuNome.errors" class="mt-1 ml-1 invalid-feedback">
-                  <div *ngIf="f.usuNome.errors.required">
-                    Nome obrigatório!
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group col-md-3 col-sm-4">
-                <label for="inputCPF">CPF&nbsp;<small style="color: rgb(184, 184, 184);">(somente números)</small></label>
-                <input type="text" mask="000.000.000-00" class="form-control" id="inputCPF" placeholder="000.000.000-00" style="text-align: center;" formControlName="usuNCPF">
-              </div>
-
-              <div class="form-group col-md-3 col-sm-4">
-                <label for="inputNascimento">Nascimento</label>
-                <input type="date" class="form-control" id="inputNascimento" placeholder="Nascimento" style="text-align: center;"  formControlName="usuNasc" required [ngClass]="{ 'is-invalid': (submitted || f.usuNasc.touched)  && f.usuNasc.errors }">
-                <div *ngIf="(submitted || f.usuNasc.touched)  && f.usuNasc.errors" class="mt-1 ml-1 invalid-feedback">
-                  <div *ngIf="f.usuNasc.errors.required">
-                    Nascimento obrigatório!
-                  </div>
-                  <div *ngIf="f.usuNasc.errors.dataInvalida">
-                    Data Inválida!
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group col-md-4 col-sm-8">
-                <label for="inputEmail">E-mail</label>
-                <input (focusout)="ConsultaUsuarioByEmailCPF(f.usuEmail.value)" autocomplete="username" type="email" class="form-control" id="inputEmail" placeholder="seu@email.com" formControlName="usuEmail" required [ngClass]="{ 'is-invalid': (submitted || f.usuEmail.touched)  && f.usuEmail.errors }">
-                <div *ngIf="(submitted || f.usuEmail.touched)  && f.usuEmail.errors" class="invalid-feedback">
-                  <div *ngIf="f.usuEmail.errors.required">
-                    E-mail obrigatório!
-                  </div>
-                  <div *ngIf="f.usuEmail.errors.pattern">
-                    E-mail inválido!
-                  </div>
-                </div>
-                <div *ngIf="emailJaCadastrado" class="mt-1" style="color: #dc3545; font-size: 13px;">
-                  E-mail já cadastrado!
-                </div>
-              </div>
-
-              <div class="form-group col-md-2 col-sm-4">
-                <label for="inputSexo">Sexo</label>
-                <select placeholder="Selecione" id="inputSexo" class="form-control" formControlName="usuSexo" required [ngClass]="{ 'is-invalid': (submitted || f.endEsta.touched)  && f.usuSexo.errors }">
-                  <option value="" disabled selected>Selecione</option>
-                  <option value="M">Masculino</option>
-                  <option value="F">Feminino</option>
-                  <option value="NI">Não informado</option>
-                </select>
-                <div *ngIf="(submitted || f.usuSexo.touched) && f.usuSexo.errors" class="invalid-feedback">
-                  <div *ngIf="f.usuSexo.errors.required">
-                    Sexo obrigatório!
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group col-md-3 col-sm-4">
-                <label for="inputSenha">Nova senha</label>
-                <input autocomplete="new-password" type="password" class="form-control" id="inputSenha" placeholder="Digite sua senha" style="text-align: center;" formControlName="usuSenha" [ngClass]="{ 'is-invalid': (submitted || f.usuSenha.touched)  && f.usuSenha.errors }">
-                <div *ngIf="(submitted || f.usuSenha.touched) && f.usuSenha.errors" class="invalid-feedback">
-                  <div *ngIf="f.usuSenha.errors.minlength">
-                    Senha deve ter no mínimo 6 caracters.
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group col-md-3 col-sm-4">
-                <label for="inputConfirmaSenha">Confirme sua nova senha</label>
-                <input autocomplete="new-password" type="password" class="form-control" id="inputConfirmaSenha" placeholder="Confirme sua senha" style="text-align: center;" formControlName="usuConfirmaSenha" [ngClass]="{ 'is-invalid': (submitted || f.usuConfirmaSenha.touched)  && f.usuConfirmaSenha.errors }">
-                <div *ngIf="(submitted || f.usuConfirmaSenha.touched) && f.usuConfirmaSenha.errors" class="invalid-feedback">
-                  <div *ngIf="f.usuConfirmaSenha.errors.validarSenhas">
-                    Senhas não coincidem!
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group col-md-3 col-sm-4">
-                <label for="inputCEP">CEP&nbsp;<small style="color: rgb(184, 184, 184);">(somente números)</small></label>
-                <input (focusout)="BuscaCEP(f.endNCEP.value)" name="endNCEP" type="text" mask="00000-000" class="form-control" id="inputCEP" placeholder="CEP" style="text-align: center;" formControlName="endNCEP" required [ngClass]="{ 'is-invalid': (submitted || f.endNCEP.touched)  && f.endNCEP.errors }">
-                <div *ngIf="(submitted || f.endNCEP.touched) && f.endNCEP.errors" class="invalid-feedback">
-                  <div *ngIf="f.endNCEP.errors.required">
-                    CEP obrigatório!
-                  </div>
-                  <div *ngIf="f.endNCEP.errors.minlength">
-                    CEP deve ter no mínimo 8 caracters.
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group col-md-5 col-sm-8">
-                <label for="inputLogradouro">Logradouro</label>
-                <input #inputLogradouro id="inputLogradouro" name="endLogr" type="text" class="form-control" placeholder="Logradouro" formControlName="endLogr" required [ngClass]="{ 'is-invalid': (submitted || f.endLogr.touched)  && f.endLogr.errors }">
-                <div *ngIf="(submitted || f.endLogr.touched) && f.endLogr.errors" class="invalid-feedback">
-                  <div *ngIf="f.endLogr.errors.required">
-                    Logradouro obrigatório!
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group col-md-2 col-sm-3">
-                <label for="inputNumLogr">Número</label>
-                <input #inputNumLogr id="inputNumLogr" name="endNume" type="text" class="form-control" placeholder="Número" formControlName="endNume" required [ngClass]="{ 'is-invalid': (submitted || f.endNume.touched)  && f.endNume.errors }">
-                <div *ngIf="(submitted || f.endNume.touched) && f.endNume.errors" class="invalid-feedback">
-                  <div *ngIf="f.endNume.errors.required">
-                    Número obrigatório!
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group col-md-2 col-sm-3">
-                <label for="inputComplemento">Complemento</label>
-                <input name="endCompl" type="text" class="form-control" id="inputComplemento" placeholder="Complemento" formControlName="endCompl" [ngClass]="{ 'is-invalid': (submitted || f.endCompl.touched)  && f.endCompl.errors }">
-              </div>
-
-              <div class="form-group col-md-4 col-sm-6">
-                <label for="inputBairro">Bairro</label>
-                <input name="endBairr" type="text" class="form-control" id="inputBairro" placeholder="Bairro" formControlName="endBairr" required [ngClass]="{ 'is-invalid': (submitted || f.endBairr.touched)  && f.endBairr.errors }">
-                <div *ngIf="(submitted || f.endBairr.touched) && f.endBairr.errors" class="invalid-feedback">
-                  <div *ngIf="f.endBairr.errors.required">
-                    Bairro obrigatório!
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group col-md-6 col-sm-9">
-                <label for="inputCidade">Cidade</label>
-                <input name="endCidad" type="text" class="form-control" id="inputCidade" placeholder="Cidade" formControlName="endCidad" required [ngClass]="{ 'is-invalid': (submitted || f.endCidad.touched)  && f.endCidad.errors }">
-                <div *ngIf="(submitted || f.endCidad.touched) && f.endCidad.errors" class="invalid-feedback">
-                  <div *ngIf="f.endCidad.errors.required">
-                    Cidade obrigatória!
-                  </div>
-                </div>
-              </div>
-
-              <div class="form-group col-md-2 col-sm-3">
-                <label for="inputEstado">Estado</label>
-                <select placeholder="Selecione" id="inputEstado" class="form-control" formControlName="endEsta" required [ngClass]="{ 'is-invalid': (submitted || f.endEsta.touched)  && f.endEsta.errors }">
-                  <option value="" disabled selected>Selecione</option>
-                  <option [value]="estados.value" *ngFor="let estados of estados">{{estados.value}}</option>
-                </select>
-                <div *ngIf="(submitted || f.endEsta.touched) && f.endEsta.errors" class="invalid-feedback">
-                  <div *ngIf="f.endEsta.errors.required">
-                    Estado obrigatório!
-                  </div>
+            <div class="form-group col-md-6 col-sm-8">
+              <label for="inputNome">Nome</label>
+              <input type="text" class="form-control" id="inputNome" placeholder="Nome" formControlName="usuNome" required [ngClass]="{ 'is-invalid': (submitted || f.usuNome.touched)  && f.usuNome.errors }">
+              <div *ngIf="(submitted || f.usuNome.touched)  && f.usuNome.errors" class="mt-1 ml-1 invalid-feedback">
+                <div *ngIf="f.usuNome.errors.required">
+                  Nome obrigatório!
                 </div>
               </div>
             </div>
 
-            <!-- TERMO DE ACEITE -->
-            <div class="form-row">
-              <div class="form-group col-lg-6">
-                <div class="form-group form-check">
-                  <input type="checkbox" formControlName="usuCttEma" id="usuCttEma" class="form-check-input"/>
-                  <label for="usuCttEma" class="form-check-label">Aceito receber notificações por e-mail.</label>
+            <div class="form-group col-md-3 col-sm-4">
+              <label for="inputCPF">CPF&nbsp;<small style="color: rgb(184, 184, 184);">(somente números)</small></label>
+              <input type="text" mask="000.000.000-00" class="form-control" id="inputCPF" placeholder="000.000.000-00" style="text-align: center;" formControlName="usuNCPF">
+            </div>
+
+            <div class="form-group col-md-3 col-sm-4">
+              <label for="inputNascimento">Nascimento</label>
+              <input type="date" class="form-control" id="inputNascimento" placeholder="Nascimento" style="text-align: center;"  formControlName="usuNasc" required [ngClass]="{ 'is-invalid': (submitted || f.usuNasc.touched)  && f.usuNasc.errors }">
+              <div *ngIf="(submitted || f.usuNasc.touched)  && f.usuNasc.errors" class="mt-1 ml-1 invalid-feedback">
+                <div *ngIf="f.usuNasc.errors.required">
+                  Nascimento obrigatório!
+                </div>
+                <div *ngIf="f.usuNasc.errors.dataInvalida">
+                  Data Inválida!
                 </div>
               </div>
             </div>
 
-            <!-- BOTÕES -->
-            <div class="text-right pb-4">
-              <button type="submit" class="btn btn-primary btn-sm">Registrar</button>
-              &nbsp;
-              <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalSair">Cancelar</button>
+            <div class="form-group col-md-4 col-sm-8">
+              <label for="inputEmail">E-mail</label>
+              <input (focusout)="ConsultaUsuarioByEmailCPF(f.usuEmail.value)" autocomplete="username" type="email" class="form-control" id="inputEmail" placeholder="seu@email.com" formControlName="usuEmail" required [ngClass]="{ 'is-invalid': (submitted || f.usuEmail.touched)  && f.usuEmail.errors }">
+              <div *ngIf="(submitted || f.usuEmail.touched)  && f.usuEmail.errors" class="invalid-feedback">
+                <div *ngIf="f.usuEmail.errors.required">
+                  E-mail obrigatório!
+                </div>
+                <div *ngIf="f.usuEmail.errors.pattern">
+                  E-mail inválido!
+                </div>
+              </div>
+              <div *ngIf="emailJaCadastrado" class="mt-1" style="color: #dc3545; font-size: 13px;">
+                E-mail já cadastrado!
+              </div>
             </div>
-          </form>
-        </div>
+
+            <div class="form-group col-md-2 col-sm-4">
+              <label for="inputSexo">Sexo</label>
+              <select placeholder="Selecione" id="inputSexo" class="form-control" formControlName="usuSexo" required [ngClass]="{ 'is-invalid': (submitted || f.endEsta.touched)  && f.usuSexo.errors }">
+                <option value="" disabled selected>Selecione</option>
+                <option value="M">Masculino</option>
+                <option value="F">Feminino</option>
+                <option value="NI">Não informado</option>
+              </select>
+              <div *ngIf="(submitted || f.usuSexo.touched) && f.usuSexo.errors" class="invalid-feedback">
+                <div *ngIf="f.usuSexo.errors.required">
+                  Sexo obrigatório!
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-3 col-sm-4">
+              <label for="inputSenha">Nova senha</label>
+              <input autocomplete="new-password" type="password" class="form-control" id="inputSenha" placeholder="Digite sua senha" style="text-align: center;" formControlName="usuSenha" [ngClass]="{ 'is-invalid': (submitted || f.usuSenha.touched)  && f.usuSenha.errors }">
+              <div *ngIf="(submitted || f.usuSenha.touched) && f.usuSenha.errors" class="invalid-feedback">
+                <div *ngIf="f.usuSenha.errors.minlength">
+                  Senha deve ter no mínimo 6 caracters.
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-3 col-sm-4">
+              <label for="inputConfirmaSenha">Confirme sua nova senha</label>
+              <input autocomplete="new-password" type="password" class="form-control" id="inputConfirmaSenha" placeholder="Confirme sua senha" style="text-align: center;" formControlName="usuConfirmaSenha" [ngClass]="{ 'is-invalid': (submitted || f.usuConfirmaSenha.touched)  && f.usuConfirmaSenha.errors }">
+              <div *ngIf="(submitted || f.usuConfirmaSenha.touched) && f.usuConfirmaSenha.errors" class="invalid-feedback">
+                <div *ngIf="f.usuConfirmaSenha.errors.validarSenhas">
+                  Senhas não coincidem!
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-3 col-sm-4">
+              <label for="inputCEP">CEP&nbsp;<small style="color: rgb(184, 184, 184);">(somente números)</small></label>
+              <input (focusout)="BuscaCEP(f.endNCEP.value)" name="endNCEP" type="text" mask="00000-000" class="form-control" id="inputCEP" placeholder="CEP" style="text-align: center;" formControlName="endNCEP" required [ngClass]="{ 'is-invalid': (submitted || f.endNCEP.touched)  && f.endNCEP.errors }">
+              <div *ngIf="(submitted || f.endNCEP.touched) && f.endNCEP.errors" class="invalid-feedback">
+                <div *ngIf="f.endNCEP.errors.required">
+                  CEP obrigatório!
+                </div>
+                <div *ngIf="f.endNCEP.errors.minlength">
+                  CEP deve ter no mínimo 8 caracters.
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-5 col-sm-8">
+              <label for="inputLogradouro">Logradouro</label>
+              <input #inputLogradouro id="inputLogradouro" name="endLogr" type="text" class="form-control" placeholder="Logradouro" formControlName="endLogr" required [ngClass]="{ 'is-invalid': (submitted || f.endLogr.touched)  && f.endLogr.errors }">
+              <div *ngIf="(submitted || f.endLogr.touched) && f.endLogr.errors" class="invalid-feedback">
+                <div *ngIf="f.endLogr.errors.required">
+                  Logradouro obrigatório!
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-2 col-sm-3">
+              <label for="inputNumLogr">Número</label>
+              <input #inputNumLogr id="inputNumLogr" name="endNume" type="text" class="form-control" placeholder="Número" formControlName="endNume" required [ngClass]="{ 'is-invalid': (submitted || f.endNume.touched)  && f.endNume.errors }">
+              <div *ngIf="(submitted || f.endNume.touched) && f.endNume.errors" class="invalid-feedback">
+                <div *ngIf="f.endNume.errors.required">
+                  Número obrigatório!
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-2 col-sm-3">
+              <label for="inputComplemento">Complemento</label>
+              <input name="endCompl" type="text" class="form-control" id="inputComplemento" placeholder="Complemento" formControlName="endCompl" [ngClass]="{ 'is-invalid': (submitted || f.endCompl.touched)  && f.endCompl.errors }">
+            </div>
+
+            <div class="form-group col-md-4 col-sm-6">
+              <label for="inputBairro">Bairro</label>
+              <input name="endBairr" type="text" class="form-control" id="inputBairro" placeholder="Bairro" formControlName="endBairr" required [ngClass]="{ 'is-invalid': (submitted || f.endBairr.touched)  && f.endBairr.errors }">
+              <div *ngIf="(submitted || f.endBairr.touched) && f.endBairr.errors" class="invalid-feedback">
+                <div *ngIf="f.endBairr.errors.required">
+                  Bairro obrigatório!
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-6 col-sm-9">
+              <label for="inputCidade">Cidade</label>
+              <input name="endCidad" type="text" class="form-control" id="inputCidade" placeholder="Cidade" formControlName="endCidad" required [ngClass]="{ 'is-invalid': (submitted || f.endCidad.touched)  && f.endCidad.errors }">
+              <div *ngIf="(submitted || f.endCidad.touched) && f.endCidad.errors" class="invalid-feedback">
+                <div *ngIf="f.endCidad.errors.required">
+                  Cidade obrigatória!
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-2 col-sm-3">
+              <label for="inputEstado">Estado</label>
+              <select placeholder="Selecione" id="inputEstado" class="form-control" formControlName="endEsta" required [ngClass]="{ 'is-invalid': (submitted || f.endEsta.touched)  && f.endEsta.errors }">
+                <option value="" disabled selected>Selecione</option>
+                <option [value]="estados.value" *ngFor="let estados of estados">{{estados.value}}</option>
+              </select>
+              <div *ngIf="(submitted || f.endEsta.touched) && f.endEsta.errors" class="invalid-feedback">
+                <div *ngIf="f.endEsta.errors.required">
+                  Estado obrigatório!
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- TERMO DE ACEITE -->
+          <div class="form-row">
+            <div class="form-group col-lg-6">
+              <div class="form-group form-check">
+                <input type="checkbox" formControlName="usuCttEma" id="usuCttEma" class="form-check-input"/>
+                <label for="usuCttEma" class="form-check-label">Aceito receber notificações por e-mail.</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- BOTÕES -->
+          <div class="text-right pb-4">
+            <button type="submit" class="btn btn-primary btn-sm">Registrar</button>
+            &nbsp;
+            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalSair">Cancelar</button>
+          </div>
+        </form>
       </div>
     </div>
+  </div>
 
-    <!-- Modal Sair -->
-    <div style="color: black;" class="modal fade" id="modalSair" tabindex="-1" role="dialog" aria-labelledby="modalParaSair" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="modalParaSair">Atenção!</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            Deseja cancelar o cadastro? Todas as informações serão perdidas.
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-dismiss="modal">Não, voltar para o cadastro</button>
-            <button routerLink='/master/home' type="button" class="btn btn-primary" data-dismiss="modal">Sim, fechar</button>
-          </div>
+  <!-- Modal Sair -->
+  <div style="color: black;" class="modal fade" id="modalSair" tabindex="-1" role="dialog" aria-labelledby="modalParaSair" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalParaSair">Atenção!</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Deseja cancelar o cadastro? Todas as informações serão perdidas.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Não, voltar para o cadastro</button>
+          <button routerLink='/master/home' type="button" class="btn btn-primary" data-dismiss="modal">Sim, fechar</button>
         </div>
       </div>
     </div>
   </div>
+</div>

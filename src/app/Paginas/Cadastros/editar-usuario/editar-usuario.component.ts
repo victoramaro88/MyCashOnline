@@ -96,6 +96,9 @@ export class EditarUsuarioComponent implements OnInit {
             this.spinnerBlock = false;
           }
         }, (err) => {
+          if (err.status === 401) {
+            this.router.navigate(['/login']);
+          }
           this.msgs = [];
           this.msgs.push({severity: 'error', summary: 'Erro: ', detail: err.message});
 
@@ -243,6 +246,10 @@ export class EditarUsuarioComponent implements OnInit {
           setTimeout(() => {
             this.msgs = [];
           }, 3000);
+        } else {
+          this.msgs = [];
+          this.msgs.push({severity: 'error', summary: 'Erro: ', detail: ret});
+          scrollTo(0, 0);
         }
       }, (err) => {
         this.mensagemErro = '';

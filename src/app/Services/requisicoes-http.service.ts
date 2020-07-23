@@ -5,6 +5,8 @@ import { environment } from 'src/environments/environment';
 import { DadosUsuarioModel } from '../Models/usuarios/dadosusuario.model';
 import { DadosUsuEmailModel } from '../Models/usuarios/dadosusuemail.model';
 import { InstFinUsrCompletaModel } from '../Models/instFin/instFinUsrCompleta.model';
+import { InstituicaoFinanceiraModel } from '../Models/instFin/instituicaoFinanceira.model';
+import { InstitFinancUsuarioModel } from '../Models/instFin/instFinanUsuario.model';
 
 @Injectable({
   providedIn: 'root'
@@ -71,11 +73,27 @@ export class RequisicoesHttpService {
       return this.http.get<InstFinUsrCompletaModel[]>(`${environment.BASE_URL}/api/InstFinancUsuario/ListarInsFinUsrByIdUsr/${idUsuario}/`, header);
     }
 
+    public ListarInstituicaoFinanceira() {
+      const header = {
+        headers: new HttpHeaders()
+        .set('Authorization',  `Bearer ${sessionStorage.getItem('tokenAcesso')}`)
+      };
+      return this.http.get<InstituicaoFinanceiraModel[]>(`${environment.BASE_URL}/api/InstituicaoFinanceira/ListarInstitFinanceiras/`, header);
+    }
+
     public AlteraStatusInstFinUsr(idInstFinUsr: number, statusNovo: boolean) {
       const header = {
         headers: new HttpHeaders()
         .set('Authorization',  `Bearer ${sessionStorage.getItem('tokenAcesso')}`)
       };
       return this.http.get<string>(`${environment.BASE_URL}/api/InstFinancUsuario/AlteraStatusInstFinUsr/${idInstFinUsr}/${statusNovo}/`, header);
+    }
+
+    public ManterInstitFinancUsr(dadosInstFinUsr: InstitFinancUsuarioModel) {
+      const header = {
+        headers: new HttpHeaders()
+        .set('Authorization',  `Bearer ${sessionStorage.getItem('tokenAcesso')}`)
+      };
+      return this.http.post<string>(`${environment.BASE_URL}/api/Usuario/ManterUsuario/`, dadosInstFinUsr, header);
     }
   }
