@@ -33,6 +33,7 @@ import { CadCartaoComponent } from './Paginas/Cadastros/cad-cartao/cad-cartao.co
 import { NovoLancamentoComponent } from './Paginas/novo-lancamento/novo-lancamento.component';
 import { EditarUsuarioComponent } from './Paginas/Cadastros/editar-usuario/editar-usuario.component';
 import { IntFinUsrComponent } from './Paginas/Cadastros/int-fin-usr/int-fin-usr.component';
+import { JanelaCancelarComponent } from './Paginas/Comuns/janela-cancelar/janela-cancelar.component';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -53,6 +54,7 @@ const maskConfig: Partial<IConfig> = {
     NovoLancamentoComponent,
     EditarUsuarioComponent,
     IntFinUsrComponent,
+    JanelaCancelarComponent,
   ],
   imports: [
     BrowserModule,

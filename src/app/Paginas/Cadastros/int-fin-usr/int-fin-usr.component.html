@@ -14,12 +14,13 @@
         <form [formGroup]="formCadastro" #cadastroForm="ngForm">
           <div class="form-row">
 
-            <div class="form-group col-lg-3 col-md-5 col-sm-4">
+            <div class="form-group col-xl-3 col-md-5 col-sm-4">
               <label for="inputInstituicao">Instituição<span class="asteriscoObrigatorio">&nbsp;*</span></label>
               <select placeholder="Selecione" id="inputInstituicao" class="form-control" formControlName="ifCodi" required [ngClass]="{ 'is-invalid': (submitted || f.ifCodi.touched)  && f.ifCodi.errors }">
                 <option value="" disabled selected>Selecione</option>
                 <option [value]="instFinanc.ifCodi" *ngFor="let instFinanc of instituicoesFinanceiras">
-                  {{instFinanc.ifDesc}}
+                  <!-- <img alt="Imagem" src="{{instFinanc.ifImg.length > 0 ? 'data:image/png;base64,' + instFinanc.ifImg : '../../../../assets/Imagens/NoPhoto.png'}}" width="10px" style="vertical-align: middle" /> -->
+                 {{instFinanc.ifDesc}}
                 </option>
               </select>
               <div *ngIf="(submitted || f.ifCodi.touched) && f.ifCodi.errors" class="invalid-feedback">
@@ -29,33 +30,33 @@
               </div>
             </div>
 
-            <div class="form-group col-lg-3 col-md-3 col-sm-4">
+            <div class="form-group col-xl-2 col-md-3 col-sm-4">
               <label for="inputAgencia">Agência</label>
               <input type="text" class="form-control" id="inputAgencia" placeholder="Agência" formControlName="ifuNAgen">
             </div>
 
-            <div class="form-group col-lg-3 col-md-3 col-sm-4">
+            <div class="form-group col-xl-2 col-md-4 col-sm-4">
               <label for="inputConta">Conta</label>
               <input type="text" class="form-control" id="inputConta" placeholder="Conta" formControlName="ifuNConta">
             </div>
 
-            <div class="form-group col-lg-3 col-md-4 col-sm-5">
+            <div class="form-group col-xl-2 col-md-6 col-sm-6">
               <label for="inputLimite">Limite</label>
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
                   <span class="input-group-text">R$</span>
                 </div>
-                <input (keyup)="CalculaMonetario($event.target.value)" type="number" id="inputLimite" placeholder="0,00" class="form-control text-center" formControlName="ifuLimit" aria-label="Limite">
+                <input (keyup)="ConverteValor($event.target.value, 'Limite', true)" type="number" id="inputLimite" placeholder="0,00" class="form-control text-center" formControlName="ifuLimit" aria-label="Limite">
               </div>
             </div>
 
-            <div class="form-group col-lg-3 col-md-4 col-sm-5">
+            <div class="form-group col-xl-2 col-md-6 col-sm-6">
               <label for="inputSaldo">Saldo</label>
               <div class="input-group mb-3">
                 <div class="input-group-prepend">
                   <span class="input-group-text">R$</span>
                 </div>
-                <input type="text" id="inputSaldo" placeholder="0,00" class="form-control text-center" formControlName="ifuSaldo" aria-label="Saldo" required [ngClass]="{ 'is-invalid': (submitted || f.ifuSaldo.touched)  && f.ifuSaldo.errors }" mask="separator.2" thousandSeparator=".">
+                <input (keyup)="ConverteValor($event.target.value, 'Saldo', true)" type="number" id="inputSaldo" placeholder="0,00" class="form-control text-center" formControlName="ifuSaldo" aria-label="Saldo" required [ngClass]="{ 'is-invalid': (submitted || f.ifuSaldo.touched)  && f.ifuSaldo.errors }">
                 <div *ngIf="(submitted || f.ifuSaldo.touched) && f.ifuSaldo.errors" class="invalid-feedback">
                   <div *ngIf="f.ifuSaldo.errors.required">
                     Saldo obrigatório!
@@ -98,7 +99,7 @@
             <ng-template pTemplate="caption">
               <div class="row">
                 <div class="col-md-3 col-sm-4 col-5 text-left">
-                  <button (click)="AbrirJanelaManter(0)" type="button" class="btn btn-success btn-sm"><i class="fa fa-plus-circle"></i>&nbsp; Cadastrar</button>
+                  <button (click)="ListarInstituicoesFinanceiras(0)" type="button" class="btn btn-success btn-sm"><i class="fa fa-plus-circle"></i>&nbsp; Cadastrar</button>
                 </div>
                 <div class="col-md-9 col-sm-8 col-7 text-right">
                   <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
@@ -125,7 +126,7 @@
                 <td><span class="ui-column-title">Agência</span>{{ifu.ifuNAgen}}</td>
                 <td><span class="ui-column-title">Conta</span> {{ifu.ifuNConta}}</td>
                 <td><span class="ui-column-title">Limite</span> R$ {{ifu.ifuLimit | number: '1.2'}}</td>
-                <td><span class="ui-column-title">Saldo</span> R$ {{ifu.ifuSaldo | number: '1.2'}}</td>
+                <td style.color="{{ifu.ifuSaldo >= 0 ? 'black' : 'red'}}"><span style="color: black;" class="ui-column-title">Saldo</span> R$ {{ifu.ifuSaldo | number: '1.2'}}</td>
                 <td pSortableColumn="ifuFlAt" style.color="{{ifu.ifuFlAt ? 'green' : 'red'}}"> <span style="color: black;" class="ui-column-title">Status<p-sortIcon field="ifuFlAt"></p-sortIcon></span> {{ifu.ifuFlAt ? 'Ativa' : 'Inativa'}}</td>
                 <td>
                   <div style="display: block;" class="btn-toolbar" role="toolbar" aria-label="Grupo de botões">
@@ -136,7 +137,7 @@
                       </a>
                     </div>
                     <div style="font-size: 1.5em;" class="btn-group btn-group-sm mr-2 mt-1" role="group" aria-label="Segundo grupo">
-                      <a [routerLink]="" (click)="AbrirJanelaManter(ifu.ifuCodi)" title="Editar"><i class="fa fa-edit"></i></a>
+                      <a [routerLink]="" (click)="ListarInstituicoesFinanceiras(ifu.ifuCodi)" title="Editar"><i class="fa fa-edit"></i></a>
                     </div>
                   </div>
                 </td>

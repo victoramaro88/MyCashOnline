@@ -94,6 +94,6 @@ export class RequisicoesHttpService {
         headers: new HttpHeaders()
         .set('Authorization',  `Bearer ${sessionStorage.getItem('tokenAcesso')}`)
       };
-      return this.http.post<string>(`${environment.BASE_URL}/api/Usuario/ManterUsuario/`, dadosInstFinUsr, header);
+      return this.http.post<string>(`${environment.BASE_URL}/api/InstFinancUsuario/ManterInstitFinancUsuario/`, dadosInstFinUsr, header);
     }
   }

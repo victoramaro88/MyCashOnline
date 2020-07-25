@@ -1,3 +1,4 @@
+import { Utilitarios } from './../../../Services/utilitarios';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { RequisicoesHttpService } from 'src/app/Services/requisicoes-http.service';
@@ -22,6 +23,8 @@ export class IntFinUsrComponent implements OnInit {
   submitted = false;
   manterRegistro = false;
 
+  selectedCar2 = '';
+
   constructor(
     private http: RequisicoesHttpService,
     private formBuilder: FormBuilder,
@@ -45,12 +48,12 @@ export class IntFinUsrComponent implements OnInit {
       });
     }
 
-    ListarInstituicoesFinanceiras() {
+    ListarInstituicoesFinanceiras(idUsuario: number) {
       this.spinnerBlock = true;
       this.http.ListarInstituicaoFinanceira().subscribe((ret: InstituicaoFinanceiraModel[]) => {
         if (ret.length > 0) {
           this.instituicoesFinanceiras = ret;
-          console.log(this.instituicoesFinanceiras);
+          this.AbrirJanelaManter(idUsuario);
         }
         this.spinnerBlock = false;
       }, err => {
@@ -119,27 +122,36 @@ export class IntFinUsrComponent implements OnInit {
     }
 
     AbrirJanelaManter(idInstFinUsr: number) {
-      console.log('ID Selecionado: ' + idInstFinUsr);
-      this.ListarInstituicoesFinanceiras();
       this.manterRegistro = true;
-
-      // ->CRIAR ROTINA PARA PESQUISAR A INSTITUIÇÃO DO USUÁRIO SELECIONADA CASO SEJA EDIÇÃO.
       if (idInstFinUsr > 0) {
-        console.log('EDIÇÃO');
+        // tslint:disable-next-line: prefer-for-of
+        for (let i = 0; i < this.instituicoesUsuario.length; i++) {
+          if (this.instituicoesUsuario[i].ifuCodi === idInstFinUsr) {
+            this.instFinUsrEdit.ifuCodi = this.instituicoesUsuario[i].ifuCodi;
+            this.instFinUsrEdit.ifuFlAt = this.instituicoesUsuario[i].ifuFlAt;
+            this.f.ifCodi.setValue(this.instituicoesUsuario[i].ifCodi);
+            this.f.ifuNAgen.setValue(this.instituicoesUsuario[i].ifuNAgen);
+            this.f.ifuNConta.setValue(this.instituicoesUsuario[i].ifuNConta);
+            this.ConverteValor(this.instituicoesUsuario[i].ifuLimit.toString(), 'Limite', false);
+            this.ConverteValor(this.instituicoesUsuario[i].ifuSaldo.toString(), 'Saldo', false);
+          }
+        }
       }
     }
 
     CancelaOperacao() {
+      this.ListarInstFinUsuario();
       this.IniciaValidacaoForm();
       this.manterRegistro = false;
     }
 
     ManterRegistro() {
-      // this.spinnerBlock = true;
       this.submitted = true;
       if (this.formCadastro.invalid) {
         return;
       }
+
+      this.spinnerBlock = true;
       const instFinancUsuarioModel: InstitFinancUsuarioModel = new InstitFinancUsuarioModel();
 
       instFinancUsuarioModel.ifuCodi = this.instFinUsrEdit.ifuCodi !== undefined ? this.instFinUsrEdit.ifuCodi : 0;
@@ -147,60 +159,55 @@ export class IntFinUsrComponent implements OnInit {
       instFinancUsuarioModel.usuCodi = +sessionStorage.getItem('idUsuario');
       instFinancUsuarioModel.ifuNAgen = this.f.ifuNAgen.value;
       instFinancUsuarioModel.ifuNConta = this.f.ifuNConta.value;
-      instFinancUsuarioModel.ifuLimit = this.f.ifuLimit.value;
-      instFinancUsuarioModel.ifuSaldo = this.f.ifuSaldo.value;
+      instFinancUsuarioModel.ifuLimit = +this.f.ifuLimit.value;
+      instFinancUsuarioModel.ifuSaldo = +this.f.ifuSaldo.value;
       instFinancUsuarioModel.ifuFlAt = this.instFinUsrEdit.ifuFlAt !== undefined ? this.instFinUsrEdit.ifuFlAt : true;
 
-      console.log(instFinancUsuarioModel);
-
-      // this.http.ManterInstitFinancUsr(instFinancUsuarioModel).subscribe((ret: string) => {
-      //   if (ret.length > 0) {
-      //     console.log(ret);
-      //     if (ret !== undefined && ret === 'OK') {
-      //       this.msgs = [];
-      //       this.msgs.push({severity: 'success', summary: 'Dados atualizados com Sucesso!', detail: ''});
-      //       scrollTo(0, 0);
-      //       setTimeout(() => {
-      //         this.msgs = [];
-      //       }, 3000);
-      //     } else {
-      //       this.msgs = [];
-      //       this.msgs.push({severity: 'error', summary: 'Erro: ', detail: ret});
-      //       scrollTo(0, 0);
-      //     }
-      //   }
-      //   this.spinnerBlock = false;
-      // }, err => {
-      //   if (err.status === 401) {
-      //     this.routes.navigate(['/login']);
-      //   }
-      //   this.msgs = [];
-      //   this.msgs.push({severity: 'error', summary: 'Erro: ', detail: err.message + '. Contate o administrador.'});
-      //   scrollTo(0, 0);
-      //   this.spinnerBlock = false;
-      // });
+      this.http.ManterInstitFinancUsr(instFinancUsuarioModel).subscribe((ret: string) => {
+        if (ret.length > 0) {
+          if (ret !== undefined && ret === 'OK') {
+            this.msgs = [];
+            this.msgs.push({severity: 'success', summary: 'Dados ' + (instFinancUsuarioModel.ifuCodi > 0 ? 'atualizados' : 'inseridos') + ' com Sucesso!', detail: ''});
+            scrollTo(0, 0);
+            setTimeout(() => {
+              this.msgs = [];
+              this.CancelaOperacao();
+            }, 3000);
+          } else {
+            this.msgs = [];
+            this.msgs.push({severity: 'error', summary: 'Erro: ', detail: ret});
+            scrollTo(0, 0);
+          }
+        }
+        this.spinnerBlock = false;
+      }, err => {
+        if (err.status === 401) {
+          this.routes.navigate(['/login']);
+        }
+        this.msgs = [];
+        this.msgs.push({severity: 'error', summary: 'Erro: ', detail: err.message + '. Contate o administrador.'});
+        scrollTo(0, 0);
+        this.spinnerBlock = false;
+      });
     }
 
-    // ->CORRIGIR ESSE ERRO!
-    CalculaMonetario(valor: any) {
-      try {
-        console.log(valor);
-        switch (valor.length) {
-          case 1:
-            valor = '0.0' + valor;
-            break;
-            case 5:
-            valor = valor * 10;
-            break;
-
-          default:
-            break;
+    ConverteValor(valor: string, input: string, insercao: boolean) {
+      if (input === 'Limite') {
+        const ret = Utilitarios.CalculaMonetario(valor, insercao);
+        if (ret !== 'Número Inválido') {
+          this.f.ifuLimit.setValue(ret);
+        } else {
+          this.f.ifuLimit.setValue('0');
+          console.log(ret);
         }
-
-        this.f.ifuLimit.setValue(valor);
-
-      } catch (error) {
-        console.log('Valor Inválido');
+      } else if (input === 'Saldo') {
+        const ret = Utilitarios.CalculaMonetario(valor, insercao);
+        if (ret !== 'Número Inválido') {
+          this.f.ifuSaldo.setValue(ret);
+        } else {
+          this.f.ifuSaldo.setValue('0');
+          console.log(ret);
+        }
       }
     }
   }
