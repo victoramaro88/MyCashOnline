@@ -7,6 +7,7 @@ import { InstFinUsrCompletaModel } from 'src/app/Models/instFin/instFinUsrComple
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { InstituicaoFinanceiraModel } from 'src/app/Models/instFin/instituicaoFinanceira.model';
 import { InstitFinancUsuarioModel } from 'src/app/Models/instFin/instFinanUsuario.model';
+import { ContatoEmailModel } from '../../Comuns/envia-email/cttEmail.model';
 
 @Component({
   selector: 'app-int-fin-usr',
@@ -22,8 +23,7 @@ export class IntFinUsrComponent implements OnInit {
   formCadastro: FormGroup;
   submitted = false;
   manterRegistro = false;
-
-  selectedCar2 = '';
+  mostrarModalAvisoBool = false; // ->Modal para aviso de Inst Fin Inativa
 
   constructor(
     private http: RequisicoesHttpService,
@@ -38,6 +38,10 @@ export class IntFinUsrComponent implements OnInit {
 
     get f() { return this.formCadastro.controls; }
 
+    mostrarModalAviso() {
+      this.mostrarModalAvisoBool = true;
+  }
+
     IniciaValidacaoForm() {
       this.formCadastro = this.formBuilder.group({
         ifCodi: ['', Validators.required],
@@ -48,9 +52,9 @@ export class IntFinUsrComponent implements OnInit {
       });
     }
 
-    ListarInstituicoesFinanceiras(idUsuario: number) {
+    ListarInstituicaoFinanceiraAtiva(idUsuario: number) {
       this.spinnerBlock = true;
-      this.http.ListarInstituicaoFinanceira().subscribe((ret: InstituicaoFinanceiraModel[]) => {
+      this.http.ListarInstituicaoFinanceiraAtiva().subscribe((ret: InstituicaoFinanceiraModel[]) => {
         if (ret.length > 0) {
           this.instituicoesFinanceiras = ret;
           this.AbrirJanelaManter(idUsuario);
@@ -129,7 +133,7 @@ export class IntFinUsrComponent implements OnInit {
           if (this.instituicoesUsuario[i].ifuCodi === idInstFinUsr) {
             this.instFinUsrEdit.ifuCodi = this.instituicoesUsuario[i].ifuCodi;
             this.instFinUsrEdit.ifuFlAt = this.instituicoesUsuario[i].ifuFlAt;
-            this.f.ifCodi.setValue(this.instituicoesUsuario[i].ifCodi);
+            this.f.ifCodi.setValue(this.instituicoesUsuario[i].ifFlAt ? this.instituicoesUsuario[i].ifCodi : '');
             this.f.ifuNAgen.setValue(this.instituicoesUsuario[i].ifuNAgen);
             this.f.ifuNConta.setValue(this.instituicoesUsuario[i].ifuNConta);
             this.ConverteValor(this.instituicoesUsuario[i].ifuLimit.toString(), 'Limite', false);
@@ -209,5 +213,12 @@ export class IntFinUsrComponent implements OnInit {
           console.log(ret);
         }
       }
+    }
+
+    EnviaEmail() {
+      ContatoEmailModel.remetente = sessionStorage.getItem('emailUsuario');
+      ContatoEmailModel.destinatario = 'contatomycash@gmail.com';
+      ContatoEmailModel.assunto = 'Instituição Financeira inativa no sistema';
+      ContatoEmailModel.mensagem = '';
     }
   }

@@ -31,10 +31,13 @@
           <!-- </li> -->
 
 
-          <li data-toggle="collapse" data-target="#service" class="collapsed">
+          <li (click)="AtivaMenu('Servicos')" data-toggle="collapse" data-target="#servicos" class="collapsed" [ngClass]="{'active' : menuServicos}">
             <a><i class="fa fa-globe fa-lg"></i> Serviços <span class="arrow"></span></a>
           </li>
-          <ul class="sub-menu collapse" id="service">
+          <ul class="sub-menu collapse" id="servicos">
+            <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}">
+              <a href="#" [routerLink]="['/master/instFin']">Instituição Financeira</a>
+            </li>
             <li>New Service 1</li>
             <li>New Service 2</li>
             <li>New Service 3</li>

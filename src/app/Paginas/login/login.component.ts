@@ -91,6 +91,8 @@ export class LoginComponent implements OnInit {
             if (ret[0].usuValido) {
               sessionStorage.setItem('nomeUsuario', ret[0].usuNome);
               sessionStorage.setItem('idUsuario', ret[0].usuCodi);
+              sessionStorage.setItem('emailUsuario', ret[0].usuEmail);
+              // console.log(sessionStorage);
 
 
               this.router.navigate(['/master/home']);

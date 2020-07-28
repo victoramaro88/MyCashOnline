@@ -2,11 +2,21 @@
   <app-spinnerload></app-spinnerload>
 </div>
 
+<p-dialog header="AVISO!" [(visible)]="mostrarModalAvisoBool" [modal]="true" [style]="{width: '50vw'}" [baseZIndex]="10000"
+[draggable]="false" [resizable]="false">
+<p>Esta Instituição Financeira encontra-se inativa, caso tenha necessidade de utilizá-la, altere para outra instituição ativa ou contate o administrador do sistema.</p>
+<p-footer>
+  <!-- <button routerLink="/master/enviaMail" type="button" pButton icon="pi pi-check" (click)="mostrarModalAvisoBool=false" label="Contatar o Administrador" class="ui-button-warning"></button> -->
+  <button routerLink="/master/enviaMail" type="button" pButton icon="pi pi-check" (click)="EnviaEmail()" label="Contatar o Administrador" class="ui-button-warning"></button>
+  <button type="button" pButton icon="pi pi-check" (click)="mostrarModalAvisoBool=false" label="Ok"></button>
+</p-footer>
+</p-dialog>
+
 <div class="container-fluid divPrincipal">
   <div class="row divPrincipal">
     <div class="col-12 pt-3">
       <p-messages [(value)]="msgs"></p-messages>
-      <h4>Instituição Financeira</h4>
+      <h4>Minhas Instituições Financeiras</h4>
       <br>
 
       <!-- CADASTRO DE NOVA INSTITUIÇÃO FINANCEIRA DO USUÁRIO -->
@@ -20,7 +30,7 @@
                 <option value="" disabled selected>Selecione</option>
                 <option [value]="instFinanc.ifCodi" *ngFor="let instFinanc of instituicoesFinanceiras">
                   <!-- <img alt="Imagem" src="{{instFinanc.ifImg.length > 0 ? 'data:image/png;base64,' + instFinanc.ifImg : '../../../../assets/Imagens/NoPhoto.png'}}" width="10px" style="vertical-align: middle" /> -->
-                 {{instFinanc.ifDesc}}
+                  {{instFinanc.ifDesc}}
                 </option>
               </select>
               <div *ngIf="(submitted || f.ifCodi.touched) && f.ifCodi.errors" class="invalid-feedback">
@@ -99,7 +109,7 @@
             <ng-template pTemplate="caption">
               <div class="row">
                 <div class="col-md-3 col-sm-4 col-5 text-left">
-                  <button (click)="ListarInstituicoesFinanceiras(0)" type="button" class="btn btn-success btn-sm"><i class="fa fa-plus-circle"></i>&nbsp; Cadastrar</button>
+                  <button (click)="ListarInstituicaoFinanceiraAtiva(0)" type="button" class="btn btn-success btn-sm"><i class="fa fa-plus-circle"></i>&nbsp; Cadastrar</button>
                 </div>
                 <div class="col-md-9 col-sm-8 col-7 text-right">
                   <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
@@ -121,8 +131,8 @@
             </ng-template>
             <ng-template pTemplate="body" let-ifu>
               <tr class="text-center" style="font-size: 0.8em;">
-                <td><span class="ui-column-title">Imagem</span> <img alt="Imagem" src="{{ifu.ifImg.length > 0 ? 'data:image/png;base64,' + ifu.ifImg : '../../../../assets/Imagens/NoPhoto.png'}}" width="33px" style="vertical-align: middle" /></td>
-                <td pSortableColumn="ifDesc"> <span class="ui-column-title">Descrição<p-sortIcon field="ifDesc"></p-sortIcon></span> {{ifu.ifDesc}}</td>
+                <td><span class="ui-column-title">Imagem</span> <img alt="Imagem" src="{{ifu.ifImg.length > 0 ? 'data:image/png;base64,' + ifu.ifImg : '../../../../assets/Imagens/NoPhoto.png'}}" width="40px" style="vertical-align: middle" /></td>
+                <td pSortableColumn="ifDesc" style.color="{{ifu.ifFlAt ? 'black' : 'red'}}" pTooltip="{{ifu.ifFlAt ? '' : 'Instituição Financeira Inativa'}}"> <span style="color: black;" class="ui-column-title">Descrição<p-sortIcon field="ifDesc"></p-sortIcon></span> {{ifu.ifDesc}}</td>
                 <td><span class="ui-column-title">Agência</span>{{ifu.ifuNAgen}}</td>
                 <td><span class="ui-column-title">Conta</span> {{ifu.ifuNConta}}</td>
                 <td><span class="ui-column-title">Limite</span> R$ {{ifu.ifuLimit | number: '1.2'}}</td>
@@ -137,7 +147,10 @@
                       </a>
                     </div>
                     <div style="font-size: 1.5em;" class="btn-group btn-group-sm mr-2 mt-1" role="group" aria-label="Segundo grupo">
-                      <a [routerLink]="" (click)="ListarInstituicoesFinanceiras(ifu.ifuCodi)" title="Editar"><i class="fa fa-edit"></i></a>
+                      <a [routerLink]="" (click)="ListarInstituicaoFinanceiraAtiva(ifu.ifuCodi)" title="Editar"><i class="fa fa-edit"></i></a>
+                    </div>
+                    <div *ngIf="!ifu.ifFlAt"  style="font-size: 1.5em;" class="btn-group btn-group-sm mr-2 mt-1" role="group" aria-label="Terceiro grupo">
+                      <a style="color: red;" [routerLink]="" (click)="mostrarModalAviso()" ><i pTooltip="{{ifu.ifFlAt ? '' : 'Instituição Financeira Inativa'}}" class="{{ifu.ifFlAt ? '' : 'fa fa-info-circle'}}"></i></a>
                     </div>
                   </div>
                 </td>
@@ -151,7 +164,7 @@
           <br>
           <p>Você ainda não possui nenhuma Instituição Financeira cadastrada.</p>
           <br>
-          <button class="btn btn-success btn-lg">Cadastrar</button>
+          <button (click)="ListarInstituicaoFinanceiraAtiva(0)" class="btn btn-success btn-lg">Cadastrar</button>
         </div>
       </ng-template>
     </div>

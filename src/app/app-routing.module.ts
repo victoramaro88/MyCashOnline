@@ -9,6 +9,8 @@ import { CadCartaoComponent } from './Paginas/Cadastros/cad-cartao/cad-cartao.co
 import { NovoLancamentoComponent } from './Paginas/novo-lancamento/novo-lancamento.component';
 import { EditarUsuarioComponent } from './Paginas/Cadastros/editar-usuario/editar-usuario.component';
 import { IntFinUsrComponent } from './Paginas/Cadastros/int-fin-usr/int-fin-usr.component';
+import { InstituicaoFinanceiraComponent } from './Paginas/Cadastros/instituicao-financeira/instituicao-financeira.component';
+import { EnviaEmailComponent } from './Paginas/Comuns/envia-email/envia-email.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -21,7 +23,9 @@ const routes: Routes = [
     { path: 'cadCartao', component: CadCartaoComponent },
     { path: 'instFinUsr', component: IntFinUsrComponent },
     { path: 'novoLancamento', component: NovoLancamentoComponent },
-    { path: 'editarUsuario', component: EditarUsuarioComponent }
+    { path: 'editarUsuario', component: EditarUsuarioComponent },
+    { path: 'instFin', component: InstituicaoFinanceiraComponent },
+    { path: 'enviaMail', component: EnviaEmailComponent },
   ],
 },
 ];

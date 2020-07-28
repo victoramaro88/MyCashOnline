@@ -16,6 +16,7 @@ export class RequisicoesHttpService {
   // *tokenAcesso;
   // *nomeUsuario;
   // *idUsuario;
+  // *emailUsuario;
 
   constructor(
     private http: HttpClient
@@ -73,12 +74,20 @@ export class RequisicoesHttpService {
       return this.http.get<InstFinUsrCompletaModel[]>(`${environment.BASE_URL}/api/InstFinancUsuario/ListarInsFinUsrByIdUsr/${idUsuario}/`, header);
     }
 
-    public ListarInstituicaoFinanceira() {
+    public ListarInstituicaoFinanceira(idInstFin: number) {
       const header = {
         headers: new HttpHeaders()
         .set('Authorization',  `Bearer ${sessionStorage.getItem('tokenAcesso')}`)
       };
-      return this.http.get<InstituicaoFinanceiraModel[]>(`${environment.BASE_URL}/api/InstituicaoFinanceira/ListarInstitFinanceiras/`, header);
+      return this.http.get<InstituicaoFinanceiraModel[]>(`${environment.BASE_URL}/api/InstituicaoFinanceira/ListarInstitFinanceiras/${idInstFin}`, header);
+    }
+
+    public ListarInstituicaoFinanceiraAtiva() {
+      const header = {
+        headers: new HttpHeaders()
+        .set('Authorization',  `Bearer ${sessionStorage.getItem('tokenAcesso')}`)
+      };
+      return this.http.get<InstituicaoFinanceiraModel[]>(`${environment.BASE_URL}/api/InstituicaoFinanceira/ListarInstitFinanceirasAtivas/`, header);
     }
 
     public AlteraStatusInstFinUsr(idInstFinUsr: number, statusNovo: boolean) {
@@ -87,6 +96,14 @@ export class RequisicoesHttpService {
         .set('Authorization',  `Bearer ${sessionStorage.getItem('tokenAcesso')}`)
       };
       return this.http.get<string>(`${environment.BASE_URL}/api/InstFinancUsuario/AlteraStatusInstFinUsr/${idInstFinUsr}/${statusNovo}/`, header);
+    }
+
+    public AlteraStatusInstFinanc(idInstFinanc: number, statusNovo: boolean) {
+      const header = {
+        headers: new HttpHeaders()
+        .set('Authorization',  `Bearer ${sessionStorage.getItem('tokenAcesso')}`)
+      };
+      return this.http.get<string>(`${environment.BASE_URL}/api/InstituicaoFinanceira/AlteraStatusInstFinanceira/${idInstFinanc}/${statusNovo}/`, header);
     }
 
     public ManterInstitFinancUsr(dadosInstFinUsr: InstitFinancUsuarioModel) {

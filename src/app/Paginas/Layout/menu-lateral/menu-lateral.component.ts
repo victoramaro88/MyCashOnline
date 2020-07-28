@@ -13,6 +13,7 @@ export class MenuLateralComponent implements OnInit {
   // ->Variáveis para ativar ou não os links.
   menuDashboard: boolean = true;
   menuCadastro: boolean = false;
+  menuServicos: boolean = false;
 
   items: MenuItem[];
 
@@ -32,9 +33,18 @@ export class MenuLateralComponent implements OnInit {
     switch (menu) {
       case 'Dashboard':
       this.menuDashboard = true;
+      this.menuCadastro = false;
+      this.menuServicos = false;
       break;
       case 'Cadastro':
       this.menuCadastro = true;
+      this.menuDashboard = false;
+      this.menuServicos = false;
+      break;
+      case 'Servicos':
+      this.menuServicos = true;
+      this.menuCadastro = false;
+      this.menuDashboard = false;
       break;
 
       default:

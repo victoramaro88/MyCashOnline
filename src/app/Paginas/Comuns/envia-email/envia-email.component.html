@@ -1,0 +1,90 @@
+<div class="divPrincipal">
+  <h4>Contato via e-mail</h4>
+  <br>
+  <form [formGroup]="formCadastro" #cadastroForm="ngForm">
+    <div class="form-row">
+
+      <div class="form-group col-6">
+        <label for="inputRemetente">Remetente<span class="asteriscoObrigatorio">&nbsp;*</span></label>
+        <input type="email" class="form-control" id="inputRemetente" placeholder="email@email.com" formControlName="cttRemetente" required [ngClass]="{ 'is-invalid': (submitted || f.cttRemetente.touched)  && f.cttRemetente.errors }">
+        <div *ngIf="(submitted || f.cttRemetente.touched)  && f.cttRemetente.errors" class="invalid-feedback">
+          <div *ngIf="f.cttRemetente.errors.required">
+            Remetente obrigatório!
+          </div>
+          <div *ngIf="f.cttRemetente.errors.pattern">
+            Remetente inválido!
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group col-6">
+        <label for="inputDestinatario">Destinatário<span class="asteriscoObrigatorio">&nbsp;*</span></label>
+        <input type="email" class="form-control" id="inputDestinatario" placeholder="email@email.com" formControlName="cttDestinatario" required [ngClass]="{ 'is-invalid': (submitted || f.cttDestinatario.touched)  && f.cttDestinatario.errors }">
+        <div *ngIf="(submitted || f.cttDestinatario.touched)  && f.cttDestinatario.errors" class="invalid-feedback">
+          <div *ngIf="f.cttDestinatario.errors.required">
+            Destinatário obrigatório!
+          </div>
+          <div *ngIf="f.cttDestinatario.errors.pattern">
+            Destinatário inválido!
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group col-12">
+        <label for="inputAssunto">Assunto<span class="asteriscoObrigatorio">&nbsp;*</span></label>
+        <input type="text" class="form-control" id="inputAssunto" placeholder="Assunto" formControlName="cttAssunto" required [ngClass]="{ 'is-invalid': (submitted || f.cttAssunto.touched)  && f.cttAssunto.errors }">
+        <div *ngIf="(submitted || f.cttAssunto.touched)  && f.cttAssunto.errors" class="invalid-feedback">
+          <div *ngIf="f.cttAssunto.errors.required">
+            Assunto obrigatório!
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group col-12">
+        <label for="inputMensagem">Mensagem<span class="asteriscoObrigatorio">&nbsp;*</span></label>
+        <textarea  type="text" class="form-control" id="inputMensagem" placeholder="Digite aqui sua mensagem..." formControlName="cttMensagem" required [ngClass]="{ 'is-invalid': (submitted || f.cttMensagem.touched)  && f.cttMensagem.errors }"></textarea>
+        <!-- <input type="text" class="form-control" id="inputAssunto" placeholder="email@email.com" formControlName="cttAssunto" required [ngClass]="{ 'is-invalid': (submitted || f.cttAssunto.touched)  && f.cttAssunto.errors }"> -->
+        <div *ngIf="(submitted || f.cttMensagem.touched)  && f.cttMensagem.errors" class="invalid-feedback">
+          <div *ngIf="f.cttMensagem.errors.required">
+            Mensagem obrigatória!
+          </div>
+          <div *ngIf="f.cttMensagem.errors.minlength">
+            Quantidade mínima inválida!
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+    <small style="color: rgb(187, 187, 187); font-size: 0.7em;"><span class="asteriscoObrigatorio">*&nbsp;</span>Campos obrigatórios.</small><br>
+
+    <!-- BOTÕES -->
+    <div class="text-right pb-4">
+      <button (click)="EnviaEmail()" type="button" class="btn btn-primary btn-sm">Enviar</button>
+      &nbsp;
+      <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalSair">Cancelar</button>
+    </div>
+  </form>
+</div>
+
+<!-- Modal Sair -->
+<div style="color: black;" class="modal fade" id="modalSair" tabindex="-1" role="dialog" aria-labelledby="modalParaSair" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalParaSair">Atenção!</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Deseja cancelar o envio de e-mail? Todas as informações serão perdidas.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Não, voltar para o envio</button>
+        <!-- <button [routerLink]="" (click)="CancelaOperacao()" type="button" class="btn btn-primary" data-dismiss="modal">Sim, fechar</button> -->
+        <button routerLink="/master/home" type="button" class="btn btn-primary" data-dismiss="modal">Sim, fechar</button>
+      </div>
+    </div>
+  </div>
+</div>

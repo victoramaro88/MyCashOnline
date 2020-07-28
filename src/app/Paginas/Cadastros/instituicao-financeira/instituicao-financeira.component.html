@@ -1,0 +1,104 @@
+<div *ngIf="spinnerBlock">
+  <app-spinnerload></app-spinnerload>
+</div>
+
+<div class="container-fluid divPrincipal">
+  <div class="row divPrincipal">
+    <div class="col-12 pt-3">
+      <p-messages [(value)]="msgs"></p-messages>
+      <h4>Instituição Financeira</h4>
+      <br>
+
+      <!-- GRID DE PESQUISA -->
+      <div *ngIf="!manterRegistro">
+        <ng-container *ngIf="instituicoesFinanceiras.length > 0; else elseTemplate">
+          <div>
+            <p-table
+            #dt
+            [loading]="spinnerBlock"
+            [value]="instituicoesFinanceiras"
+            [responsive]="true"
+            [paginator]="true"
+            [rows]="10"
+            [showCurrentPageReport]="true"
+            currentPageReportTemplate="{last} de {totalRecords} registros"
+            [globalFilterFields]="['ifDesc']"
+            >
+            <ng-template pTemplate="caption">
+              <div class="row">
+                <div class="col-md-3 col-sm-4 col-5 text-left">
+                  <button (click)="ListarInstituicoesFinanceiras(0)" type="button" class="btn btn-success btn-sm"><i class="fa fa-plus-circle"></i>&nbsp; Cadastrar</button>
+                </div>
+                <div class="col-md-9 col-sm-8 col-7 text-right">
+                  <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
+                  <input type="text" pInputText size="50" placeholder="Pesquisa" (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:70%;">
+                </div>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header" let-columns>
+              <tr style="font-size: 13px;" class="text-center">
+                <th>Imagem</th>
+                <th pSortableColumn="ifDesc">Descrição<p-sortIcon field="ifDesc"></p-sortIcon></th>
+                <th>Nº Instit.</th>
+                <th>Status</th>
+                <th>Opções</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-instFin>
+              <tr class="text-center" style="font-size: 0.8em;">
+                <td><span class="ui-column-title">Imagem</span> <img alt="Imagem" src="{{instFin.ifImg.length > 0 ? 'data:image/png;base64,' + instFin.ifImg : '../../../../assets/Imagens/NoPhoto.png'}}" width="40px" style="vertical-align: middle" /></td>
+                <td pSortableColumn="ifDesc"> <span class="ui-column-title">Descrição<p-sortIcon field="ifDesc"></p-sortIcon></span> {{instFin.ifDesc}}</td>
+                <td><span class="ui-column-title">Nº Instit.</span>{{instFin.ifCod}}</td>
+                <td pSortableColumn="ifuFlAt" style.color="{{instFin.ifFlAt ? 'green' : 'red'}}"> <span style="color: black;" class="ui-column-title">Status<p-sortIcon field="ifuFlAt"></p-sortIcon></span> {{instFin.ifFlAt ? 'Ativa' : 'Inativa'}}</td>
+                <td>
+                  <div style="display: block;" class="btn-toolbar" role="toolbar" aria-label="Grupo de botões">
+                    <span class="ui-column-title">Opções</span>
+                    <div style="font-size: 1.5em;" class="btn-group btn-group-sm mr-2 mt-1" role="group" aria-label="Primeiro grupo">
+                      <a [routerLink]="" (click)="AlteraStatusInstFinanc(instFin.ifCodi, !instFin.ifFlAt)" title="{{instFin.ifFlAt ? 'Desativar' : 'Ativar'}}" style.color="{{instFin.ifFlAt ? 'red' : 'green'}}">
+                        <i class="fa {{instFin.ifFlAt ? 'fa-times-circle' : 'fa-check-circle'}}"></i>
+                      </a>
+                    </div>
+                    <div style="font-size: 1.5em;" class="btn-group btn-group-sm mr-2 mt-1" role="group" aria-label="Segundo grupo">
+                      <a [routerLink]="" (click)="ListarInstituicoesFinanceiras(instFin.ifCodi)" title="Editar"><i class="fa fa-edit"></i></a>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </ng-container>
+      <ng-template #elseTemplate>
+        <div class="text-center">
+          <br>
+          <p>Ainda não existem Instituições Financeiras cadastradas.</p>
+          <br>
+          <button (click)="ListarInstituicoesFinanceiras(0)" class="btn btn-success btn-lg">Cadastrar</button>
+        </div>
+      </ng-template>
+    </div>
+
+  </div>
+</div>
+
+<!-- Modal Sair -->
+<div style="color: black;" class="modal fade" id="modalSair" tabindex="-1" role="dialog" aria-labelledby="modalParaSair" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalParaSair">Atenção!</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Deseja cancelar o cadastro? Todas as informações serão perdidas.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Não, voltar para o cadastro</button>
+        <button [routerLink]="" (click)="CancelaOperacao()" type="button" class="btn btn-primary" data-dismiss="modal">Sim, fechar</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

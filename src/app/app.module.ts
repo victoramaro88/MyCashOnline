@@ -17,6 +17,8 @@ import {ProgressSpinnerModule} from 'primeng/progressspinner';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
+import {TooltipModule} from 'primeng/tooltip';
+import {DialogModule} from 'primeng/dialog';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
@@ -34,6 +36,8 @@ import { NovoLancamentoComponent } from './Paginas/novo-lancamento/novo-lancamen
 import { EditarUsuarioComponent } from './Paginas/Cadastros/editar-usuario/editar-usuario.component';
 import { IntFinUsrComponent } from './Paginas/Cadastros/int-fin-usr/int-fin-usr.component';
 import { JanelaCancelarComponent } from './Paginas/Comuns/janela-cancelar/janela-cancelar.component';
+import { InstituicaoFinanceiraComponent } from './Paginas/Cadastros/instituicao-financeira/instituicao-financeira.component';
+import { EnviaEmailComponent } from './Paginas/Comuns/envia-email/envia-email.component';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -55,6 +59,8 @@ const maskConfig: Partial<IConfig> = {
     EditarUsuarioComponent,
     IntFinUsrComponent,
     JanelaCancelarComponent,
+    InstituicaoFinanceiraComponent,
+    EnviaEmailComponent,
   ],
   imports: [
     BrowserModule,
@@ -76,6 +82,8 @@ const maskConfig: Partial<IConfig> = {
     ProgressSpinnerModule,
     TableModule,
     ToastModule,
+    TooltipModule,
+    DialogModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
