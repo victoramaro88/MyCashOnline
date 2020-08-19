@@ -19,6 +19,7 @@ import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import {TooltipModule} from 'primeng/tooltip';
 import {DialogModule} from 'primeng/dialog';
+import {FileUploadModule} from 'primeng/fileupload';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
@@ -84,6 +85,7 @@ const maskConfig: Partial<IConfig> = {
     ToastModule,
     TooltipModule,
     DialogModule,
+    FileUploadModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

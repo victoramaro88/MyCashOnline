@@ -7,3 +7,4 @@ export class DadosUsuarioModel {
   enderecoModel: EnderecoModel;
   perfilUsuarioModel: PerfilUsuarioModel;
 }
+

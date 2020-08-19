@@ -54,21 +54,27 @@ export class IntFinUsrComponent implements OnInit {
 
     ListarInstituicaoFinanceiraAtiva(idUsuario: number) {
       this.spinnerBlock = true;
-      this.http.ListarInstituicaoFinanceiraAtiva().subscribe((ret: InstituicaoFinanceiraModel[]) => {
-        if (ret.length > 0) {
-          this.instituicoesFinanceiras = ret;
-          this.AbrirJanelaManter(idUsuario);
-        }
+      if (idUsuario > 0) {
+        this.http.ListarInstituicaoFinanceiraAtiva().subscribe((ret: InstituicaoFinanceiraModel[]) => {
+          if (ret.length > 0) {
+            this.instituicoesFinanceiras = ret;
+            this.AbrirJanelaManter(idUsuario);
+          }
+          this.spinnerBlock = false;
+        }, err => {
+          if (err.status === 401) {
+            this.routes.navigate(['/login']);
+          }
+          this.msgs = [];
+          this.msgs.push({severity: 'error', summary: 'Erro: ', detail: err.message + '. Contate o administrador.'});
+          scrollTo(0, 0);
+          this.spinnerBlock = false;
+        });
+      } else {
+        this.AbrirJanelaManter(idUsuario);
         this.spinnerBlock = false;
-      }, err => {
-        if (err.status === 401) {
-          this.routes.navigate(['/login']);
-        }
-        this.msgs = [];
-        this.msgs.push({severity: 'error', summary: 'Erro: ', detail: err.message + '. Contate o administrador.'});
-        scrollTo(0, 0);
-        this.spinnerBlock = false;
-      });
+      }
+      
     }
 
     ListarInstFinUsuario() {
