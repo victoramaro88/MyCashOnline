@@ -18,23 +18,23 @@ export class InstituicaoFinanceiraComponent implements OnInit {
   formCadastro: FormGroup;
   submitted = false;
   manterRegistro = true;
-  
+
   uploadedFiles: any[] = [];
-  
+
   constructor(
     private http: RequisicoesHttpService,
     private formBuilder: FormBuilder,
     private routes: Router,
     ) { }
-    
+
     ngOnInit(): void {
       this.IniciaValidacaoForm();
-      
+
       this.ListarInstituicoesFinanceiras(0);
     }
-    
+
     get f() { return this.formCadastro.controls; }
-    
+
     IniciaValidacaoForm() {
       this.formCadastro = this.formBuilder.group({
         ifCodi: ['', Validators.required],
@@ -44,7 +44,7 @@ export class InstituicaoFinanceiraComponent implements OnInit {
         // ifFlAt: ['', Validators.required]
       });
     }
-    
+
     ManterInstituicaoFinanceira(idInstFin: number) {
       this.spinnerBlock = true;
       if (idInstFin > 0) {
@@ -67,9 +67,9 @@ export class InstituicaoFinanceiraComponent implements OnInit {
         this.AbrirJanelaManter(idInstFin);
         this.spinnerBlock = false;
       }
-      
+
     }
-    
+
     ListarInstituicoesFinanceiras(idInstFin: number) {
       this.spinnerBlock = true;
       this.http.ListarInstituicaoFinanceira(idInstFin).subscribe((ret: InstituicaoFinanceiraModel[]) => {
@@ -89,7 +89,7 @@ export class InstituicaoFinanceiraComponent implements OnInit {
         this.spinnerBlock = false;
       });
     }
-    
+
     AbrirJanelaManter(idInstFin: number) {
       if (idInstFin > 0) {
         this.manterRegistro = true;
@@ -107,7 +107,7 @@ export class InstituicaoFinanceiraComponent implements OnInit {
         // }
       }
     }
-    
+
     AlteraStatusInstFinanc(idInstFin: number, statusNovo: boolean) {
       this.spinnerBlock = true;
       this.http.AlteraStatusInstFinanc(idInstFin, statusNovo).subscribe((ret: string) => {
@@ -118,7 +118,7 @@ export class InstituicaoFinanceiraComponent implements OnInit {
               this.instituicoesFinanceiras[index].ifFlAt = statusNovo;
             }
           }
-          
+
           scrollTo(0, 0);
           this.msgs = [];
           this.msgs.push({
@@ -126,11 +126,11 @@ export class InstituicaoFinanceiraComponent implements OnInit {
             summary: 'Sucesso! ',
             detail: 'Instituição Financeira ' + (statusNovo ? 'Ativada' : 'Desativada') + ' com sucesso!'
           });
-          
+
           setTimeout(() => {
             this.msgs = [];
           }, 3000);
-          
+
         } else {
           console.log('Erro: ' + ret);
         }
@@ -142,12 +142,12 @@ export class InstituicaoFinanceiraComponent implements OnInit {
         this.spinnerBlock = false;
       });
     }
-    
+
     CancelaOperacao() {
       // this.IniciaValidacaoForm();
       this.manterRegistro = false;
     }
-    
+
     ConverteValor(valor: string, input: string, insercao: boolean) {
       if (input === 'Limite') {
         const ret = Utilitarios.CalculaMonetario(valor, insercao);
@@ -167,24 +167,49 @@ export class InstituicaoFinanceiraComponent implements OnInit {
         }
       }
     }
-    
+
     onUpload(event) {
       for (let file of event.files) {
         this.uploadedFiles.push(file);
       }
-      
+      console.log(this.uploadedFiles);
+
       // this.messageService.add({severity: 'info', summary: 'File Uploaded', detail: ''});
     }
-    
+
+    // ->Seleção de imagem.
+    public imagePath;
+    imgURL: any;
+    public message: string;
+
+    preview(files) {
+      if (files.length === 0)
+      return;
+
+      var mimeType = files[0].type;
+      if (mimeType.match(/image\/*/) == null) {
+        this.message = "Somente imagens são suportadas.";
+        return;
+      }
+
+      var reader = new FileReader();
+      this.imagePath = files;
+      reader.readAsDataURL(files[0]);
+      reader.onload = (_event) => {
+        this.imgURL = reader.result;
+      }
+    }
+    // ->Fim da seleção de imagem.
+
     ManterRegistro() {
       this.submitted = true;
       if (this.formCadastro.invalid) {
         return;
       }
-      
+
       this.spinnerBlock = true;
       // const instFinancUsuarioModel: InstitFinancUsuarioModel = new InstitFinancUsuarioModel();
-      
+
       // instFinancUsuarioModel.ifuCodi = this.instFinUsrEdit.ifuCodi !== undefined ? this.instFinUsrEdit.ifuCodi : 0;
       // instFinancUsuarioModel.ifCodi = this.f.ifCodi.value;
       // instFinancUsuarioModel.usuCodi = +sessionStorage.getItem('idUsuario');
@@ -193,7 +218,7 @@ export class InstituicaoFinanceiraComponent implements OnInit {
       // instFinancUsuarioModel.ifuLimit = +this.f.ifuLimit.value;
       // instFinancUsuarioModel.ifuSaldo = +this.f.ifuSaldo.value;
       // instFinancUsuarioModel.ifuFlAt = this.instFinUsrEdit.ifuFlAt !== undefined ? this.instFinUsrEdit.ifuFlAt : true;
-      
+
       // this.http.ManterInstitFinancUsr(instFinancUsuarioModel).subscribe((ret: string) => {
       //   if (ret.length > 0) {
       //     if (ret !== undefined && ret === 'OK') {
@@ -222,4 +247,3 @@ export class InstituicaoFinanceiraComponent implements OnInit {
       // });
     }
   }
-  
