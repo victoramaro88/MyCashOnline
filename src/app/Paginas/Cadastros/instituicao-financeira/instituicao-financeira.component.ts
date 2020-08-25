@@ -183,8 +183,11 @@ export class InstituicaoFinanceiraComponent implements OnInit {
     public message: string;
 
     preview(files) {
-      if (files.length === 0)
-      return;
+      if (files.length === 0) {
+        this.imgURL = null;
+        return;
+      }
+      
 
       var mimeType = files[0].type;
       if (mimeType.match(/image\/*/) == null) {
