@@ -179,7 +179,7 @@ export class InstituicaoFinanceiraComponent implements OnInit {
 
     // ->Seleção de imagem.
     public imagePath;
-    imgURL: any;
+    imgURL: any; //Já em base64
     public message: string;
 
     preview(files) {
