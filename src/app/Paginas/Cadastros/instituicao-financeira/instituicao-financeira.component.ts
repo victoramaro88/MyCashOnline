@@ -17,9 +17,7 @@ export class InstituicaoFinanceiraComponent implements OnInit {
   spinnerBlock = false;
   formCadastro: FormGroup;
   submitted = false;
-  manterRegistro = true;
-
-  uploadedFiles: any[] = [];
+  manterRegistro = false;
 
   constructor(
     private http: RequisicoesHttpService,
@@ -29,7 +27,6 @@ export class InstituicaoFinanceiraComponent implements OnInit {
 
     ngOnInit(): void {
       this.IniciaValidacaoForm();
-
       this.ListarInstituicoesFinanceiras(0);
     }
 
@@ -37,11 +34,10 @@ export class InstituicaoFinanceiraComponent implements OnInit {
 
     IniciaValidacaoForm() {
       this.formCadastro = this.formBuilder.group({
-        ifCodi: ['', Validators.required],
+        ifCodi: [''],
         ifDesc: ['', Validators.required],
         ifCod: [''],
-        // ifImg: [''],
-        // ifFlAt: ['', Validators.required]
+        ifImg: ['']
       });
     }
 
@@ -74,7 +70,7 @@ export class InstituicaoFinanceiraComponent implements OnInit {
       this.spinnerBlock = true;
       this.http.ListarInstituicaoFinanceira(idInstFin).subscribe((ret: InstituicaoFinanceiraModel[]) => {
         if (ret.length > 0) {
-          console.log(ret);
+          // console.log(ret);
           this.instituicoesFinanceiras = ret;
           this.AbrirJanelaManter(idInstFin);
         }
@@ -93,6 +89,15 @@ export class InstituicaoFinanceiraComponent implements OnInit {
     AbrirJanelaManter(idInstFin: number) {
       if (idInstFin > 0) {
         this.manterRegistro = true;
+
+        this.f.ifCodi.setValue(this.instituicoesFinanceiras[0].ifCodi);
+        this.f.ifDesc.setValue(this.instituicoesFinanceiras[0].ifDesc);
+        this.f.ifCod.setValue(this.instituicoesFinanceiras[0].ifCod);
+        // this.f.ifImg.setValue(this.instituicoesFinanceiras[0].ifImg);
+        // this.imgURL = this.instituicoesFinanceiras[0].ifImg;
+        //CONVERTER BASE64 TO IMAGE: https://stackoverflow.com/questions/47530377/convert-base64-string-to-image-in-angular-4
+        console.log(this.f);
+        
         // tslint:disable-next-line: prefer-for-of
         // for (let i = 0; i < this.instituicoesUsuario.length; i++) {
         //   if (this.instituicoesUsuario[i].ifuCodi === idInstFinUsr) {
@@ -146,35 +151,7 @@ export class InstituicaoFinanceiraComponent implements OnInit {
     CancelaOperacao() {
       // this.IniciaValidacaoForm();
       this.manterRegistro = false;
-    }
-
-    ConverteValor(valor: string, input: string, insercao: boolean) {
-      if (input === 'Limite') {
-        const ret = Utilitarios.CalculaMonetario(valor, insercao);
-        if (ret !== 'Número Inválido') {
-          this.f.ifuLimit.setValue(ret);
-        } else {
-          this.f.ifuLimit.setValue('0');
-          console.log(ret);
-        }
-      } else if (input === 'Saldo') {
-        const ret = Utilitarios.CalculaMonetario(valor, insercao);
-        if (ret !== 'Número Inválido') {
-          this.f.ifuSaldo.setValue(ret);
-        } else {
-          this.f.ifuSaldo.setValue('0');
-          console.log(ret);
-        }
-      }
-    }
-
-    onUpload(event) {
-      for (let file of event.files) {
-        this.uploadedFiles.push(file);
-      }
-      console.log(this.uploadedFiles);
-
-      // this.messageService.add({severity: 'info', summary: 'File Uploaded', detail: ''});
+      this.ListarInstituicoesFinanceiras(0);
     }
 
     // ->Seleção de imagem.
@@ -187,7 +164,6 @@ export class InstituicaoFinanceiraComponent implements OnInit {
         this.imgURL = null;
         return;
       }
-      
 
       var mimeType = files[0].type;
       if (mimeType.match(/image\/*/) == null) {
@@ -211,17 +187,15 @@ export class InstituicaoFinanceiraComponent implements OnInit {
       }
 
       this.spinnerBlock = true;
-      // const instFinancUsuarioModel: InstitFinancUsuarioModel = new InstitFinancUsuarioModel();
 
-      // instFinancUsuarioModel.ifuCodi = this.instFinUsrEdit.ifuCodi !== undefined ? this.instFinUsrEdit.ifuCodi : 0;
-      // instFinancUsuarioModel.ifCodi = this.f.ifCodi.value;
-      // instFinancUsuarioModel.usuCodi = +sessionStorage.getItem('idUsuario');
-      // instFinancUsuarioModel.ifuNAgen = this.f.ifuNAgen.value;
-      // instFinancUsuarioModel.ifuNConta = this.f.ifuNConta.value;
-      // instFinancUsuarioModel.ifuLimit = +this.f.ifuLimit.value;
-      // instFinancUsuarioModel.ifuSaldo = +this.f.ifuSaldo.value;
-      // instFinancUsuarioModel.ifuFlAt = this.instFinUsrEdit.ifuFlAt !== undefined ? this.instFinUsrEdit.ifuFlAt : true;
+      const instFinObj: InstituicaoFinanceiraModel = new InstituicaoFinanceiraModel();
+      instFinObj.ifCodi = 0;
+      instFinObj.ifDesc = this.f.ifDesc.value;
+      instFinObj.ifCodi = this.f.ifCodi.value;
+      instFinObj.ifImg = this.imgURL;
+      instFinObj.ifFlAt = true;
 
+      console.log(instFinObj);
       // this.http.ManterInstitFinancUsr(instFinancUsuarioModel).subscribe((ret: string) => {
       //   if (ret.length > 0) {
       //     if (ret !== undefined && ret === 'OK') {

@@ -8,164 +8,160 @@
       <p-messages [(value)]="msgs"></p-messages>
       <h4>Instituição Financeira</h4>
       <br>
-
+      
       <!-- CADASTRO DE NOVA INSTITUIÇÃO FINANCEIRA -->
       <div *ngIf="manterRegistro">
         <form [formGroup]="formCadastro" #cadastroForm="ngForm">
           <div class="form-row">
-
+            
             <div class="form-group col-xl-8 col-md-7 col-sm-6">
               <label for="inputDescricao">Descrição</label>
-              <input type="text" class="form-control" id="inputDescricao" placeholder="Descrição" formControlName="ifDesc">
+              <input type="text" class="form-control" id="inputDescricao" placeholder="Descrição" formControlName="ifDesc" required [ngClass]="{ 'is-invalid': (submitted || f.ifDesc.touched)  && f.ifDesc.errors }">
+              <div *ngIf="(submitted || f.ifDesc.touched) && f.ifDesc.errors" class="invalid-feedback">
+                <div *ngIf="f.ifDesc.errors.required">
+                  Descrição obrigatória!
+                </div>
+              </div>
             </div>
-
+            
             <div class="form-group col-xl-4 col-md-5 col-sm-6">
               <label for="inputCodInst">Código da Instituição</label>
-              <input type="text" class="form-control text-center" id="inputCodInst" placeholder="Código da Instituição" formControlName="ifCod">
+              <input type="text" class="form-control text-center" id="inputCodInst" placeholder="Código da Instituição" formControlName="ifCodi">
             </div>
-
-          <!-- <div>
-            <span style="color:red;" *ngIf="message">{{message}}</span>
-            <input #file type="file" accept='image/*' (change)="preview(file.files)"/>
-            <img *ngIf="imgURL" [src]="imgURL" height="80">
-          </div> -->
-
-          <div class="form-group col-6">
-            <!-- <div class="form-group-prepend">
-              <span class="input-group-text" id="inputGroupFileAddon01">Imagem</span>
+            
+            <div class="form-group col-sm-8">
+              <label for="inputGroupFile01">Imagem</label>
+              <div class="custom-file">
+                <input id="inputGroupFile01" #file type="file" accept='image/*' class="custom-file-input" (change)="preview(file.files)" formControlName="ifImg">
+                <label class="custom-file-label" for="inputGroupFile01">{{!file.files[0] ? 'Selecione...' : file.files[0].name}}</label>
+              </div>
+            </div>
+            <div class="form-group col-sm-4 text-center">
+              <img *ngIf="imgURL" [src]="imgURL" height="100">
+            </div>
+            
+            <!-- <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+              </div>
+              <div class="custom-file">
+                <input type="file" class="custom-file-input" id="inputGroupFile01"
+                aria-describedby="inputGroupFileAddon01">
+                <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+              </div>
             </div> -->
-            <label for="inputGroupFile01">Imagem</label>
-            <div class="custom-file">
-              <input id="inputGroupFile01" #file type="file" accept='image/*' class="custom-file-input" (change)="preview(file.files)">
-              <label class="custom-file-label" for="inputGroupFile01">{{!file.files[0] ? 'Selecione...' : file.files[0].name}}</label>
-            </div>
-          </div>
-          <div style="background-color: rgb(90, 90, 90);" class="form-group col-6 text-center">
-            <img *ngIf="imgURL" [src]="imgURL" height="100">
-          </div>
-
-          <!-- <div class="input-group">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
-            </div>
-            <div class="custom-file">
-              <input type="file" class="custom-file-input" id="inputGroupFile01"
-              aria-describedby="inputGroupFileAddon01">
-              <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
-            </div>
-          </div> -->
-
-          <!-- <div class="form-group col-xl-2 col-md-6 col-sm-6">
-            <label for="inputLimite">Limite</label>
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <span class="input-group-text">R$</span>
+            
+            <!-- <div class="form-group col-xl-2 col-md-6 col-sm-6">
+              <label for="inputLimite">Limite</label>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">R$</span>
+                </div>
+                <input (keyup)="ConverteValor($event.target.value, 'Limite', true)" type="number" id="inputLimite" placeholder="0,00" class="form-control text-center" formControlName="ifuLimit" aria-label="Limite">
               </div>
-              <input (keyup)="ConverteValor($event.target.value, 'Limite', true)" type="number" id="inputLimite" placeholder="0,00" class="form-control text-center" formControlName="ifuLimit" aria-label="Limite">
-            </div>
-          </div> -->
-
-          <!-- <div class="form-group col-xl-2 col-md-6 col-sm-6">
-            <label for="inputSaldo">Saldo</label>
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <span class="input-group-text">R$</span>
-              </div>
-              <input (keyup)="ConverteValor($event.target.value, 'Saldo', true)" type="number" id="inputSaldo" placeholder="0,00" class="form-control text-center" formControlName="ifuSaldo" aria-label="Saldo" required [ngClass]="{ 'is-invalid': (submitted || f.ifuSaldo.touched)  && f.ifuSaldo.errors }">
-              <div *ngIf="(submitted || f.ifuSaldo.touched) && f.ifuSaldo.errors" class="invalid-feedback">
-                <div *ngIf="f.ifuSaldo.errors.required">
-                  Saldo obrigatório!
+            </div> -->
+            
+            <!-- <div class="form-group col-xl-2 col-md-6 col-sm-6">
+              <label for="inputSaldo">Saldo</label>
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">R$</span>
+                </div>
+                <input (keyup)="ConverteValor($event.target.value, 'Saldo', true)" type="number" id="inputSaldo" placeholder="0,00" class="form-control text-center" formControlName="ifuSaldo" aria-label="Saldo" required [ngClass]="{ 'is-invalid': (submitted || f.ifuSaldo.touched)  && f.ifuSaldo.errors }">
+                <div *ngIf="(submitted || f.ifuSaldo.touched) && f.ifuSaldo.errors" class="invalid-feedback">
+                  <div *ngIf="f.ifuSaldo.errors.required">
+                    Saldo obrigatório!
+                  </div>
                 </div>
               </div>
-            </div>
-          </div> -->
-
-
+            </div> -->
+            
+            
+          </div>
+          
+          <small style="color: rgb(187, 187, 187); font-size: 0.7em;"><span class="asteriscoObrigatorio">*&nbsp;</span>Campos obrigatórios.</small><br>
+          
+          <!-- BOTÕES -->
+          <div class="text-right pb-4">
+            <button (click)="ManterRegistro()" type="button" class="btn btn-primary btn-sm">Salvar</button>
+            &nbsp;
+            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalSair">Cancelar</button>
+          </div>
+        </form>
+      </div>
+      
+      <br>
+      
+      <!-- GRID DE PESQUISA -->
+      <div *ngIf="!manterRegistro">
+        <ng-container *ngIf="instituicoesFinanceiras.length > 0; else elseTemplate">
+          <div>
+            <p-table
+            #dt
+            [loading]="spinnerBlock"
+            [value]="instituicoesFinanceiras"
+            [responsive]="true"
+            [paginator]="true"
+            [rows]="10"
+            [showCurrentPageReport]="true"
+            currentPageReportTemplate="{last} de {totalRecords} registros"
+            [globalFilterFields]="['ifDesc']"
+            >
+            <ng-template pTemplate="caption">
+              <div class="row">
+                <div class="col-md-3 col-sm-4 col-5 text-left">
+                  <button (click)="ManterInstituicaoFinanceira(0)" type="button" class="btn btn-success btn-sm"><i class="fa fa-plus-circle"></i>&nbsp; Cadastrar</button>
+                </div>
+                <div class="col-md-9 col-sm-8 col-7 text-right">
+                  <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
+                  <input type="text" pInputText size="50" placeholder="Pesquisa" (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:70%;">
+                </div>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header" let-columns>
+              <tr style="font-size: 13px;" class="text-center">
+                <th>Imagem</th>
+                <th pSortableColumn="ifDesc">Descrição<p-sortIcon field="ifDesc"></p-sortIcon></th>
+                <th>Nº Instit.</th>
+                <th>Status</th>
+                <th>Opções</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-instFin>
+              <tr class="text-center" style="font-size: 0.8em;">
+                <td><span class="ui-column-title">Imagem</span> <img alt="Imagem" src="{{instFin.ifImg.length > 0 ? 'data:image/png;base64,' + instFin.ifImg : '../../../../assets/Imagens/NoPhoto.png'}}" width="40px" style="vertical-align: middle" /></td>
+                <td pSortableColumn="ifDesc"> <span class="ui-column-title">Descrição<p-sortIcon field="ifDesc"></p-sortIcon></span> {{instFin.ifDesc}}</td>
+                <td><span class="ui-column-title">Nº Instit.</span>{{instFin.ifCod}}</td>
+                <td pSortableColumn="ifuFlAt" style.color="{{instFin.ifFlAt ? 'green' : 'red'}}"> <span style="color: black;" class="ui-column-title">Status<p-sortIcon field="ifuFlAt"></p-sortIcon></span> {{instFin.ifFlAt ? 'Ativa' : 'Inativa'}}</td>
+                <td>
+                  <div style="display: block;" class="btn-toolbar" role="toolbar" aria-label="Grupo de botões">
+                    <span class="ui-column-title">Opções</span>
+                    <div style="font-size: 1.5em;" class="btn-group btn-group-sm mr-2 mt-1" role="group" aria-label="Primeiro grupo">
+                      <a [routerLink]="" (click)="AlteraStatusInstFinanc(instFin.ifCodi, !instFin.ifFlAt)" title="{{instFin.ifFlAt ? 'Desativar' : 'Ativar'}}" style.color="{{instFin.ifFlAt ? 'red' : 'green'}}">
+                        <i class="fa {{instFin.ifFlAt ? 'fa-times-circle' : 'fa-check-circle'}}"></i>
+                      </a>
+                    </div>
+                    <div style="font-size: 1.5em;" class="btn-group btn-group-sm mr-2 mt-1" role="group" aria-label="Segundo grupo">
+                      <a [routerLink]="" (click)="ListarInstituicoesFinanceiras(instFin.ifCodi)" title="Editar"><i class="fa fa-edit"></i></a>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
         </div>
-
-        <small style="color: rgb(187, 187, 187); font-size: 0.7em;"><span class="asteriscoObrigatorio">*&nbsp;</span>Campos obrigatórios.</small><br>
-
-        <!-- BOTÕES -->
-        <div class="text-right pb-4">
-          <button (click)="ManterRegistro()" type="button" class="btn btn-primary btn-sm">Salvar</button>
-          &nbsp;
-          <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalSair">Cancelar</button>
+      </ng-container>
+      <ng-template #elseTemplate>
+        <div class="text-center">
+          <br>
+          <p>Ainda não existem Instituições Financeiras cadastradas.</p>
+          <br>
+          <button (click)="ListarInstituicoesFinanceiras(0)" class="btn btn-success btn-lg">Cadastrar</button>
         </div>
-      </form>
+      </ng-template>
     </div>
-
-    <br>
-
-    <!-- GRID DE PESQUISA -->
-    <div *ngIf="!manterRegistro">
-      <ng-container *ngIf="instituicoesFinanceiras.length > 0; else elseTemplate">
-        <div>
-          <p-table
-          #dt
-          [loading]="spinnerBlock"
-          [value]="instituicoesFinanceiras"
-          [responsive]="true"
-          [paginator]="true"
-          [rows]="10"
-          [showCurrentPageReport]="true"
-          currentPageReportTemplate="{last} de {totalRecords} registros"
-          [globalFilterFields]="['ifDesc']"
-          >
-          <ng-template pTemplate="caption">
-            <div class="row">
-              <div class="col-md-3 col-sm-4 col-5 text-left">
-                <button (click)="ManterInstituicaoFinanceira(0)" type="button" class="btn btn-success btn-sm"><i class="fa fa-plus-circle"></i>&nbsp; Cadastrar</button>
-              </div>
-              <div class="col-md-9 col-sm-8 col-7 text-right">
-                <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
-                <input type="text" pInputText size="50" placeholder="Pesquisa" (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:70%;">
-              </div>
-            </div>
-          </ng-template>
-          <ng-template pTemplate="header" let-columns>
-            <tr style="font-size: 13px;" class="text-center">
-              <th>Imagem</th>
-              <th pSortableColumn="ifDesc">Descrição<p-sortIcon field="ifDesc"></p-sortIcon></th>
-              <th>Nº Instit.</th>
-              <th>Status</th>
-              <th>Opções</th>
-            </tr>
-          </ng-template>
-          <ng-template pTemplate="body" let-instFin>
-            <tr class="text-center" style="font-size: 0.8em;">
-              <td><span class="ui-column-title">Imagem</span> <img alt="Imagem" src="{{instFin.ifImg.length > 0 ? 'data:image/png;base64,' + instFin.ifImg : '../../../../assets/Imagens/NoPhoto.png'}}" width="40px" style="vertical-align: middle" /></td>
-              <td pSortableColumn="ifDesc"> <span class="ui-column-title">Descrição<p-sortIcon field="ifDesc"></p-sortIcon></span> {{instFin.ifDesc}}</td>
-              <td><span class="ui-column-title">Nº Instit.</span>{{instFin.ifCod}}</td>
-              <td pSortableColumn="ifuFlAt" style.color="{{instFin.ifFlAt ? 'green' : 'red'}}"> <span style="color: black;" class="ui-column-title">Status<p-sortIcon field="ifuFlAt"></p-sortIcon></span> {{instFin.ifFlAt ? 'Ativa' : 'Inativa'}}</td>
-              <td>
-                <div style="display: block;" class="btn-toolbar" role="toolbar" aria-label="Grupo de botões">
-                  <span class="ui-column-title">Opções</span>
-                  <div style="font-size: 1.5em;" class="btn-group btn-group-sm mr-2 mt-1" role="group" aria-label="Primeiro grupo">
-                    <a [routerLink]="" (click)="AlteraStatusInstFinanc(instFin.ifCodi, !instFin.ifFlAt)" title="{{instFin.ifFlAt ? 'Desativar' : 'Ativar'}}" style.color="{{instFin.ifFlAt ? 'red' : 'green'}}">
-                      <i class="fa {{instFin.ifFlAt ? 'fa-times-circle' : 'fa-check-circle'}}"></i>
-                    </a>
-                  </div>
-                  <div style="font-size: 1.5em;" class="btn-group btn-group-sm mr-2 mt-1" role="group" aria-label="Segundo grupo">
-                    <a [routerLink]="" (click)="ListarInstituicoesFinanceiras(instFin.ifCodi)" title="Editar"><i class="fa fa-edit"></i></a>
-                  </div>
-                </div>
-              </td>
-            </tr>
-          </ng-template>
-        </p-table>
-      </div>
-    </ng-container>
-    <ng-template #elseTemplate>
-      <div class="text-center">
-        <br>
-        <p>Ainda não existem Instituições Financeiras cadastradas.</p>
-        <br>
-        <button (click)="ListarInstituicoesFinanceiras(0)" class="btn btn-success btn-lg">Cadastrar</button>
-      </div>
-    </ng-template>
+    
   </div>
-
-</div>
 </div>
 
 <!-- Modal Sair -->
