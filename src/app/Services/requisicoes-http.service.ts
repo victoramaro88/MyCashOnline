@@ -113,4 +113,12 @@ export class RequisicoesHttpService {
       };
       return this.http.post<string>(`${environment.BASE_URL}/api/InstFinancUsuario/ManterInstitFinancUsuario/`, dadosInstFinUsr, header);
     }
+
+    public ManterInstitFinanceira(dadosInstFin: InstituicaoFinanceiraModel) {
+      const header = {
+        headers: new HttpHeaders()
+        .set('Authorization',  `Bearer ${sessionStorage.getItem('tokenAcesso')}`)
+      };
+      return this.http.post<string>(`${environment.BASE_URL}/api/InstFinancUsuario/ManterInstitFinanc/`, dadosInstFin, header);
+    }
   }

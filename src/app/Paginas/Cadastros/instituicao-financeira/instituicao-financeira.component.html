@@ -15,7 +15,7 @@
           <div class="form-row">
             
             <div class="form-group col-xl-8 col-md-7 col-sm-6">
-              <label for="inputDescricao">Descrição</label>
+              <label for="inputDescricao">Descrição<span class="asteriscoObrigatorio">&nbsp;*</span></label>
               <input type="text" class="form-control" id="inputDescricao" placeholder="Descrição" formControlName="ifDesc" required [ngClass]="{ 'is-invalid': (submitted || f.ifDesc.touched)  && f.ifDesc.errors }">
               <div *ngIf="(submitted || f.ifDesc.touched) && f.ifDesc.errors" class="invalid-feedback">
                 <div *ngIf="f.ifDesc.errors.required">

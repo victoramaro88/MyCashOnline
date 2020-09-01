@@ -18,20 +18,20 @@ export class InstituicaoFinanceiraComponent implements OnInit {
   formCadastro: FormGroup;
   submitted = false;
   manterRegistro = false;
-
+  
   constructor(
     private http: RequisicoesHttpService,
     private formBuilder: FormBuilder,
     private routes: Router,
     ) { }
-
+    
     ngOnInit(): void {
       this.IniciaValidacaoForm();
       this.ListarInstituicoesFinanceiras(0);
     }
-
+    
     get f() { return this.formCadastro.controls; }
-
+    
     IniciaValidacaoForm() {
       this.formCadastro = this.formBuilder.group({
         ifCodi: [''],
@@ -40,32 +40,32 @@ export class InstituicaoFinanceiraComponent implements OnInit {
         ifImg: ['']
       });
     }
-
+    
     ManterInstituicaoFinanceira(idInstFin: number) {
-      this.spinnerBlock = true;
-      if (idInstFin > 0) {
-        this.http.ListarInstituicaoFinanceira(idInstFin).subscribe((ret: InstituicaoFinanceiraModel[]) => {
-          if (ret.length > 0) {
-            this.instituicoesFinanceiras = ret;
-            this.AbrirJanelaManter(idInstFin);
-          }
-          this.spinnerBlock = false;
-        }, err => {
-          if (err.status === 401) {
-            this.routes.navigate(['/login']);
-          }
-          this.msgs = [];
-          this.msgs.push({severity: 'error', summary: 'Erro: ', detail: err.message + '. Contate o administrador.'});
-          scrollTo(0, 0);
-          this.spinnerBlock = false;
-        });
-      } else {
-        this.AbrirJanelaManter(idInstFin);
-        this.spinnerBlock = false;
-      }
-
+      this.manterRegistro = true;
+      // this.spinnerBlock = true;
+      // if (idInstFin > 0) {
+      //   this.http.ListarInstituicaoFinanceira(idInstFin).subscribe((ret: InstituicaoFinanceiraModel[]) => {
+      //     if (ret.length > 0) {
+      //       this.instituicoesFinanceiras = ret;
+      //       this.AbrirJanelaManter(idInstFin);
+      //     }
+      //     this.spinnerBlock = false;
+      //   }, err => {
+      //     if (err.status === 401) {
+      //       this.routes.navigate(['/login']);
+      //     }
+      //     this.msgs = [];
+      //     this.msgs.push({severity: 'error', summary: 'Erro: ', detail: err.message + '. Contate o administrador.'});
+      //     scrollTo(0, 0);
+      //     this.spinnerBlock = false;
+      //   });
+      // } else {
+      //   this.AbrirJanelaManter(idInstFin);
+      //   this.spinnerBlock = false;
+      // }
     }
-
+    
     ListarInstituicoesFinanceiras(idInstFin: number) {
       this.spinnerBlock = true;
       this.http.ListarInstituicaoFinanceira(idInstFin).subscribe((ret: InstituicaoFinanceiraModel[]) => {
@@ -85,34 +85,20 @@ export class InstituicaoFinanceiraComponent implements OnInit {
         this.spinnerBlock = false;
       });
     }
-
+    
     AbrirJanelaManter(idInstFin: number) {
       if (idInstFin > 0) {
         this.manterRegistro = true;
-
         this.f.ifCodi.setValue(this.instituicoesFinanceiras[0].ifCodi);
         this.f.ifDesc.setValue(this.instituicoesFinanceiras[0].ifDesc);
         this.f.ifCod.setValue(this.instituicoesFinanceiras[0].ifCod);
-        // this.f.ifImg.setValue(this.instituicoesFinanceiras[0].ifImg);
-        // this.imgURL = this.instituicoesFinanceiras[0].ifImg;
-        //CONVERTER BASE64 TO IMAGE: https://stackoverflow.com/questions/47530377/convert-base64-string-to-image-in-angular-4
-        console.log(this.f);
-        
-        // tslint:disable-next-line: prefer-for-of
-        // for (let i = 0; i < this.instituicoesUsuario.length; i++) {
-        //   if (this.instituicoesUsuario[i].ifuCodi === idInstFinUsr) {
-        //     this.instFinUsrEdit.ifuCodi = this.instituicoesUsuario[i].ifuCodi;
-        //     this.instFinUsrEdit.ifuFlAt = this.instituicoesUsuario[i].ifuFlAt;
-        //     this.f.ifCodi.setValue(this.instituicoesUsuario[i].ifCodi);
-        //     this.f.ifuNAgen.setValue(this.instituicoesUsuario[i].ifuNAgen);
-        //     this.f.ifuNConta.setValue(this.instituicoesUsuario[i].ifuNConta);
-        //     this.ConverteValor(this.instituicoesUsuario[i].ifuLimit.toString(), 'Limite', false);
-        //     this.ConverteValor(this.instituicoesUsuario[i].ifuSaldo.toString(), 'Saldo', false);
-        //   }
-        // }
+        this.imgURL = this.instituicoesFinanceiras[0].ifImg.length > 0
+        ? 'data:image/png;base64,' + this.instituicoesFinanceiras[0].ifImg
+        : '../../../../assets/Imagens/NoPhoto.png';
+        // console.log(this.f);
       }
     }
-
+    
     AlteraStatusInstFinanc(idInstFin: number, statusNovo: boolean) {
       this.spinnerBlock = true;
       this.http.AlteraStatusInstFinanc(idInstFin, statusNovo).subscribe((ret: string) => {
@@ -123,7 +109,7 @@ export class InstituicaoFinanceiraComponent implements OnInit {
               this.instituicoesFinanceiras[index].ifFlAt = statusNovo;
             }
           }
-
+          
           scrollTo(0, 0);
           this.msgs = [];
           this.msgs.push({
@@ -131,11 +117,11 @@ export class InstituicaoFinanceiraComponent implements OnInit {
             summary: 'Sucesso! ',
             detail: 'Instituição Financeira ' + (statusNovo ? 'Ativada' : 'Desativada') + ' com sucesso!'
           });
-
+          
           setTimeout(() => {
             this.msgs = [];
           }, 3000);
-
+          
         } else {
           console.log('Erro: ' + ret);
         }
@@ -147,30 +133,30 @@ export class InstituicaoFinanceiraComponent implements OnInit {
         this.spinnerBlock = false;
       });
     }
-
+    
     CancelaOperacao() {
       // this.IniciaValidacaoForm();
       this.manterRegistro = false;
       this.ListarInstituicoesFinanceiras(0);
     }
-
+    
     // ->Seleção de imagem.
     public imagePath;
     imgURL: any; //Já em base64
     public message: string;
-
+    
     preview(files) {
       if (files.length === 0) {
         this.imgURL = null;
         return;
       }
-
+      
       var mimeType = files[0].type;
       if (mimeType.match(/image\/*/) == null) {
         this.message = "Somente imagens são suportadas.";
         return;
       }
-
+      
       var reader = new FileReader();
       this.imagePath = files;
       reader.readAsDataURL(files[0]);
@@ -179,48 +165,51 @@ export class InstituicaoFinanceiraComponent implements OnInit {
       }
     }
     // ->Fim da seleção de imagem.
-
+    
     ManterRegistro() {
       this.submitted = true;
       if (this.formCadastro.invalid) {
         return;
       }
-
+      
       this.spinnerBlock = true;
-
+      
       const instFinObj: InstituicaoFinanceiraModel = new InstituicaoFinanceiraModel();
-      instFinObj.ifCodi = 0;
+      instFinObj.ifCodi = this.instituicoesFinanceiras[0].ifCodi !== undefined ? this.instituicoesFinanceiras[0].ifCodi : 0;
       instFinObj.ifDesc = this.f.ifDesc.value;
       instFinObj.ifCodi = this.f.ifCodi.value;
-      instFinObj.ifImg = this.imgURL;
-      instFinObj.ifFlAt = true;
-
+      instFinObj.ifImg = this.imgURL !== '../../../../assets/Imagens/NoPhoto.png' ? this.imgURL : null;
+      instFinObj.ifFlAt = this.instituicoesFinanceiras[0].ifFlAt !== undefined ? this.instituicoesFinanceiras[0].ifFlAt : true;
+      
       console.log(instFinObj);
-      // this.http.ManterInstitFinancUsr(instFinancUsuarioModel).subscribe((ret: string) => {
-      //   if (ret.length > 0) {
-      //     if (ret !== undefined && ret === 'OK') {
-      //       this.msgs = [];
-      //       this.msgs.push({severity: 'success', summary: 'Dados ' + (instFinancUsuarioModel.ifuCodi > 0 ? 'atualizados' : 'inseridos') + ' com Sucesso!', detail: ''});
-      //       scrollTo(0, 0);
-      //       setTimeout(() => {
-      //         this.msgs = [];
-      //         this.CancelaOperacao();
-      //       }, 3000);
-      //     } else {
-      //       this.msgs = [];
-      //       this.msgs.push({severity: 'error', summary: 'Erro: ', detail: ret});
-      //       scrollTo(0, 0);
-      //     }
-      //   }
-      //   this.spinnerBlock = false;
-      // }, err => {
-      //   if (err.status === 401) {
-      //     this.routes.navigate(['/login']);
-      //   }
-      //   this.msgs = [];
-      //   this.msgs.push({severity: 'error', summary: 'Erro: ', detail: err.message + '. Contate o administrador.'});
-      //   scrollTo(0, 0);
-      //   this.spinnerBlock = false;
-      // });
+      this.http.ManterInstitFinanceira(instFinObj).subscribe((ret: string) => {
+        if (ret.length > 0) {
+          if (ret !== undefined && ret === 'OK') {
+            this.msgs = [];
+            this.msgs.push({
+              severity: 'success', summary: 'Dados ' + (instFinObj.ifCodi > 0 ? 'atualizados' : 'inseridos') + ' com Sucesso!', detail: ''
+            });
+            scrollTo(0, 0);
+            setTimeout(() => {
+              this.msgs = [];
+              this.CancelaOperacao();
+            }, 3000);
+          } else {
+            this.msgs = [];
+            this.msgs.push({severity: 'error', summary: 'Erro: ', detail: ret});
+            scrollTo(0, 0);
+          }
+        }
+        this.spinnerBlock = false;
+      }, err => {
+        if (err.status === 401) {
+          this.routes.navigate(['/login']);
+        }
+        this.msgs = [];
+        this.msgs.push({severity: 'error', summary: 'Erro: ', detail: err.message + '. Contate o administrador.'});
+        scrollTo(0, 0);
+        this.spinnerBlock = false;
+      });
     }
   }
+  
