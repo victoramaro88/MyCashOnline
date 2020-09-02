@@ -18,20 +18,20 @@ export class InstituicaoFinanceiraComponent implements OnInit {
   formCadastro: FormGroup;
   submitted = false;
   manterRegistro = false;
-  
+
   constructor(
     private http: RequisicoesHttpService,
     private formBuilder: FormBuilder,
     private routes: Router,
     ) { }
-    
+
     ngOnInit(): void {
       this.IniciaValidacaoForm();
       this.ListarInstituicoesFinanceiras(0);
     }
-    
+
     get f() { return this.formCadastro.controls; }
-    
+
     IniciaValidacaoForm() {
       this.formCadastro = this.formBuilder.group({
         ifCodi: [''],
@@ -40,9 +40,10 @@ export class InstituicaoFinanceiraComponent implements OnInit {
         ifImg: ['']
       });
     }
-    
+
     ManterInstituicaoFinanceira(idInstFin: number) {
       this.manterRegistro = true;
+      this.IniciaValidacaoForm();
       // this.spinnerBlock = true;
       // if (idInstFin > 0) {
       //   this.http.ListarInstituicaoFinanceira(idInstFin).subscribe((ret: InstituicaoFinanceiraModel[]) => {
@@ -65,7 +66,7 @@ export class InstituicaoFinanceiraComponent implements OnInit {
       //   this.spinnerBlock = false;
       // }
     }
-    
+
     ListarInstituicoesFinanceiras(idInstFin: number) {
       this.spinnerBlock = true;
       this.http.ListarInstituicaoFinanceira(idInstFin).subscribe((ret: InstituicaoFinanceiraModel[]) => {
@@ -85,7 +86,7 @@ export class InstituicaoFinanceiraComponent implements OnInit {
         this.spinnerBlock = false;
       });
     }
-    
+
     AbrirJanelaManter(idInstFin: number) {
       if (idInstFin > 0) {
         this.manterRegistro = true;
@@ -98,7 +99,7 @@ export class InstituicaoFinanceiraComponent implements OnInit {
         // console.log(this.f);
       }
     }
-    
+
     AlteraStatusInstFinanc(idInstFin: number, statusNovo: boolean) {
       this.spinnerBlock = true;
       this.http.AlteraStatusInstFinanc(idInstFin, statusNovo).subscribe((ret: string) => {
@@ -109,7 +110,7 @@ export class InstituicaoFinanceiraComponent implements OnInit {
               this.instituicoesFinanceiras[index].ifFlAt = statusNovo;
             }
           }
-          
+
           scrollTo(0, 0);
           this.msgs = [];
           this.msgs.push({
@@ -117,11 +118,11 @@ export class InstituicaoFinanceiraComponent implements OnInit {
             summary: 'Sucesso! ',
             detail: 'Instituição Financeira ' + (statusNovo ? 'Ativada' : 'Desativada') + ' com sucesso!'
           });
-          
+
           setTimeout(() => {
             this.msgs = [];
           }, 3000);
-          
+
         } else {
           console.log('Erro: ' + ret);
         }
@@ -133,30 +134,30 @@ export class InstituicaoFinanceiraComponent implements OnInit {
         this.spinnerBlock = false;
       });
     }
-    
+
     CancelaOperacao() {
-      // this.IniciaValidacaoForm();
+      this.IniciaValidacaoForm();
       this.manterRegistro = false;
       this.ListarInstituicoesFinanceiras(0);
     }
-    
+
     // ->Seleção de imagem.
     public imagePath;
     imgURL: any; //Já em base64
     public message: string;
-    
+
     preview(files) {
       if (files.length === 0) {
         this.imgURL = null;
         return;
       }
-      
+
       var mimeType = files[0].type;
       if (mimeType.match(/image\/*/) == null) {
         this.message = "Somente imagens são suportadas.";
         return;
       }
-      
+
       var reader = new FileReader();
       this.imagePath = files;
       reader.readAsDataURL(files[0]);
@@ -165,24 +166,25 @@ export class InstituicaoFinanceiraComponent implements OnInit {
       }
     }
     // ->Fim da seleção de imagem.
-    
+
     ManterRegistro() {
       this.submitted = true;
       if (this.formCadastro.invalid) {
         return;
       }
-      
+
       this.spinnerBlock = true;
-      
+
       const instFinObj: InstituicaoFinanceiraModel = new InstituicaoFinanceiraModel();
       instFinObj.ifCodi = this.instituicoesFinanceiras[0].ifCodi !== undefined ? this.instituicoesFinanceiras[0].ifCodi : 0;
       instFinObj.ifDesc = this.f.ifDesc.value;
-      instFinObj.ifCodi = this.f.ifCodi.value;
+      instFinObj.ifCod = this.f.ifCod.value;
       instFinObj.ifImg = this.imgURL !== '../../../../assets/Imagens/NoPhoto.png' ? this.imgURL : null;
       instFinObj.ifFlAt = this.instituicoesFinanceiras[0].ifFlAt !== undefined ? this.instituicoesFinanceiras[0].ifFlAt : true;
-      
+
       console.log(instFinObj);
       this.http.ManterInstitFinanceira(instFinObj).subscribe((ret: string) => {
+        console.log(ret);
         if (ret.length > 0) {
           if (ret !== undefined && ret === 'OK') {
             this.msgs = [];
@@ -212,4 +214,3 @@ export class InstituicaoFinanceiraComponent implements OnInit {
       });
     }
   }
-  
