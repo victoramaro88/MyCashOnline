@@ -138,6 +138,7 @@ export class InstituicaoFinanceiraComponent implements OnInit {
     CancelaOperacao() {
       this.IniciaValidacaoForm();
       this.manterRegistro = false;
+      this.imgURL = '';
       this.ListarInstituicoesFinanceiras(0);
     }
 

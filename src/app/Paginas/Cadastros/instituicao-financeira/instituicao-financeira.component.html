@@ -39,44 +39,6 @@
             <div class="form-group col-sm-4 text-center">
               <img *ngIf="imgURL" [src]="imgURL" height="100">
             </div>
-
-            <!-- <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
-              </div>
-              <div class="custom-file">
-                <input type="file" class="custom-file-input" id="inputGroupFile01"
-                aria-describedby="inputGroupFileAddon01">
-                <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
-              </div>
-            </div> -->
-
-            <!-- <div class="form-group col-xl-2 col-md-6 col-sm-6">
-              <label for="inputLimite">Limite</label>
-              <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                  <span class="input-group-text">R$</span>
-                </div>
-                <input (keyup)="ConverteValor($event.target.value, 'Limite', true)" type="number" id="inputLimite" placeholder="0,00" class="form-control text-center" formControlName="ifuLimit" aria-label="Limite">
-              </div>
-            </div> -->
-
-            <!-- <div class="form-group col-xl-2 col-md-6 col-sm-6">
-              <label for="inputSaldo">Saldo</label>
-              <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                  <span class="input-group-text">R$</span>
-                </div>
-                <input (keyup)="ConverteValor($event.target.value, 'Saldo', true)" type="number" id="inputSaldo" placeholder="0,00" class="form-control text-center" formControlName="ifuSaldo" aria-label="Saldo" required [ngClass]="{ 'is-invalid': (submitted || f.ifuSaldo.touched)  && f.ifuSaldo.errors }">
-                <div *ngIf="(submitted || f.ifuSaldo.touched) && f.ifuSaldo.errors" class="invalid-feedback">
-                  <div *ngIf="f.ifuSaldo.errors.required">
-                    Saldo obrigatório!
-                  </div>
-                </div>
-              </div>
-            </div> -->
-
-
           </div>
 
           <small style="color: rgb(187, 187, 187); font-size: 0.7em;"><span class="asteriscoObrigatorio">*&nbsp;</span>Campos obrigatórios.</small><br>
