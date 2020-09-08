@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Message } from 'primeng/api/message';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { RequisicoesHttpService } from 'src/app/Services/requisicoes-http.service';
 import { Router } from '@angular/router';
 import { InstituicaoFinanceiraModel } from 'src/app/Models/instFin/instituicaoFinanceira.model';
-import { Utilitarios } from 'src/app/Services/utilitarios';
 
 @Component({
   selector: 'app-instituicao-financeira',
@@ -12,6 +11,7 @@ import { Utilitarios } from 'src/app/Services/utilitarios';
   styleUrls: ['./instituicao-financeira.component.css']
 })
 export class InstituicaoFinanceiraComponent implements OnInit {
+  @ViewChild('imgLogo') imgLogo: ElementRef;
   instituicoesFinanceiras: InstituicaoFinanceiraModel[] = [];
   msgs: Message[] = [];
   spinnerBlock = false;
@@ -44,27 +44,6 @@ export class InstituicaoFinanceiraComponent implements OnInit {
     ManterInstituicaoFinanceira(idInstFin: number) {
       this.manterRegistro = true;
       this.IniciaValidacaoForm();
-      // this.spinnerBlock = true;
-      // if (idInstFin > 0) {
-      //   this.http.ListarInstituicaoFinanceira(idInstFin).subscribe((ret: InstituicaoFinanceiraModel[]) => {
-      //     if (ret.length > 0) {
-      //       this.instituicoesFinanceiras = ret;
-      //       this.AbrirJanelaManter(idInstFin);
-      //     }
-      //     this.spinnerBlock = false;
-      //   }, err => {
-      //     if (err.status === 401) {
-      //       this.routes.navigate(['/login']);
-      //     }
-      //     this.msgs = [];
-      //     this.msgs.push({severity: 'error', summary: 'Erro: ', detail: err.message + '. Contate o administrador.'});
-      //     scrollTo(0, 0);
-      //     this.spinnerBlock = false;
-      //   });
-      // } else {
-      //   this.AbrirJanelaManter(idInstFin);
-      //   this.spinnerBlock = false;
-      // }
     }
 
     ListarInstituicoesFinanceiras(idInstFin: number) {
@@ -153,22 +132,27 @@ export class InstituicaoFinanceiraComponent implements OnInit {
         return;
       }
 
-      var mimeType = files[0].type;
+      let mimeType = files[0].type;
       if (mimeType.match(/image\/*/) == null) {
-        this.message = "Somente imagens são suportadas.";
+        this.message = 'Somente imagens são suportadas.';
         return;
       }
 
-      var reader = new FileReader();
+      let reader = new FileReader();
       this.imagePath = files;
       reader.readAsDataURL(files[0]);
       reader.onload = (_event) => {
         this.imgURL = reader.result;
-      }
+      };
+    }
+    loadImg() {
+      const img: HTMLImageElement = this.imgLogo.nativeElement;
+      console.log('width: ' + img.width + ' / height: ' + img.height);
     }
     // ->Fim da seleção de imagem.
 
     ManterRegistro() {
+      console.log(this.imgURL);
       this.submitted = true;
       if (this.formCadastro.invalid) {
         return;
@@ -180,7 +164,7 @@ export class InstituicaoFinanceiraComponent implements OnInit {
       instFinObj.ifCodi = this.instituicoesFinanceiras[0].ifCodi !== undefined ? this.instituicoesFinanceiras[0].ifCodi : 0;
       instFinObj.ifDesc = this.f.ifDesc.value;
       instFinObj.ifCod = this.f.ifCod.value;
-      instFinObj.ifImg = this.imgURL !== '../../../../assets/Imagens/NoPhoto.png' ? this.imgURL : null;
+      instFinObj.ifImg = (this.imgURL !== undefined || this.imgURL !== 'assets/Imagens/NoPhoto.png') ? this.imgURL : ''; // ->NÃO ESTÁ SALVANDO SEM IMAGEM.
       instFinObj.ifFlAt = this.instituicoesFinanceiras[0].ifFlAt !== undefined ? this.instituicoesFinanceiras[0].ifFlAt : true;
 
       console.log(instFinObj);

@@ -37,7 +37,7 @@
               </div>
             </div>
             <div class="form-group col-sm-4 text-center">
-              <img *ngIf="imgURL" [src]="imgURL" height="100">
+              <img #imgLogo (load)="loadImg($event)" *ngIf="imgURL" [src]="imgURL" height="100">
             </div>
           </div>
 
