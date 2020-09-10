@@ -2,3 +2,8 @@
 .asteriscoObrigatorio {
   color: red;
 }
+
+.mensagemErroObrigatorio {
+  color: red;
+  font-size: 13px;
+}

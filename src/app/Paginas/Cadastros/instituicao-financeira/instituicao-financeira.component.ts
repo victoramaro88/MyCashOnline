@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { RequisicoesHttpService } from 'src/app/Services/requisicoes-http.service';
 import { Router } from '@angular/router';
 import { InstituicaoFinanceiraModel } from 'src/app/Models/instFin/instituicaoFinanceira.model';
+import { Utilitarios } from 'src/app/Services/utilitarios';
 
 @Component({
   selector: 'app-instituicao-financeira',
@@ -44,6 +45,7 @@ export class InstituicaoFinanceiraComponent implements OnInit {
     ManterInstituicaoFinanceira(idInstFin: number) {
       this.manterRegistro = true;
       this.IniciaValidacaoForm();
+      this.instituicoesFinanceiras = new Array<InstituicaoFinanceiraModel>();
     }
 
     ListarInstituicoesFinanceiras(idInstFin: number) {
@@ -85,7 +87,7 @@ export class InstituicaoFinanceiraComponent implements OnInit {
         if (ret === 'OK') {
           // tslint:disable-next-line: prefer-for-of
           for (let index = 0; index < this.instituicoesFinanceiras.length; index++) {
-            if(this.instituicoesFinanceiras[index].ifCodi === idInstFin) {
+            if (this.instituicoesFinanceiras[index].ifCodi === idInstFin) {
               this.instituicoesFinanceiras[index].ifFlAt = statusNovo;
             }
           }
@@ -143,33 +145,41 @@ export class InstituicaoFinanceiraComponent implements OnInit {
       reader.readAsDataURL(files[0]);
       reader.onload = (_event) => {
         this.imgURL = reader.result;
+        this.loadImg();
       };
     }
+
+    tamanhoImagem: number;
     loadImg() {
       const img: HTMLImageElement = this.imgLogo.nativeElement;
-      console.log('width: ' + img.width + ' / height: ' + img.height);
+      // console.log('width: ' + img.width + ' / height: ' + img.height);
+      this.tamanhoImagem = Utilitarios.CalculaTamanhoImagemBase64(this.imgURL);
+      // console.log('Retorno do Serviço: ' + this.tamanhoImagem);
+      // this.message = this.tamanhoImagem > 50 ? 'Imagem não pode ser maior que 50Kb.' : '';
+
+      Utilitarios.RedimensionarImagem(this.imgURL, img.width, img.height).then(compressed => {
+        this.imgURL = compressed;
+      });
     }
     // ->Fim da seleção de imagem.
 
     ManterRegistro() {
-      console.log(this.imgURL);
       this.submitted = true;
-      if (this.formCadastro.invalid) {
+      if (this.formCadastro.invalid || this.tamanhoImagem > 50) {
         return;
       }
 
       this.spinnerBlock = true;
 
       const instFinObj: InstituicaoFinanceiraModel = new InstituicaoFinanceiraModel();
-      instFinObj.ifCodi = this.instituicoesFinanceiras[0].ifCodi !== undefined ? this.instituicoesFinanceiras[0].ifCodi : 0;
+      instFinObj.ifCodi = this.instituicoesFinanceiras.length > 0 ? this.instituicoesFinanceiras[0].ifCodi : 0;
       instFinObj.ifDesc = this.f.ifDesc.value;
       instFinObj.ifCod = this.f.ifCod.value;
-      instFinObj.ifImg = (this.imgURL !== undefined || this.imgURL !== 'assets/Imagens/NoPhoto.png') ? this.imgURL : ''; // ->NÃO ESTÁ SALVANDO SEM IMAGEM.
-      instFinObj.ifFlAt = this.instituicoesFinanceiras[0].ifFlAt !== undefined ? this.instituicoesFinanceiras[0].ifFlAt : true;
+      instFinObj.ifImg = (this.imgURL !== undefined && this.imgURL !== '../../../../assets/Imagens/NoPhoto.png') ? this.imgURL : '';
+      instFinObj.ifFlAt = this.instituicoesFinanceiras.length > 0 ? this.instituicoesFinanceiras[0].ifFlAt : true;
 
-      console.log(instFinObj);
       this.http.ManterInstitFinanceira(instFinObj).subscribe((ret: string) => {
-        console.log(ret);
+        // console.log(ret);
         if (ret.length > 0) {
           if (ret !== undefined && ret === 'OK') {
             this.msgs = [];

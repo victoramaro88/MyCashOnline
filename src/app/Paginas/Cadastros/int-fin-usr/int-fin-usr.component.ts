@@ -40,7 +40,7 @@ export class IntFinUsrComponent implements OnInit {
 
     mostrarModalAviso() {
       this.mostrarModalAvisoBool = true;
-  }
+    }
 
     IniciaValidacaoForm() {
       this.formCadastro = this.formBuilder.group({
@@ -54,27 +54,28 @@ export class IntFinUsrComponent implements OnInit {
 
     ListarInstituicaoFinanceiraAtiva(idUsuario: number) {
       this.spinnerBlock = true;
-      if (idUsuario > 0) {
-        this.http.ListarInstituicaoFinanceiraAtiva().subscribe((ret: InstituicaoFinanceiraModel[]) => {
-          if (ret.length > 0) {
-            this.instituicoesFinanceiras = ret;
-            this.AbrirJanelaManter(idUsuario);
-          }
-          this.spinnerBlock = false;
-        }, err => {
-          if (err.status === 401) {
-            this.routes.navigate(['/login']);
-          }
-          this.msgs = [];
-          this.msgs.push({severity: 'error', summary: 'Erro: ', detail: err.message + '. Contate o administrador.'});
-          scrollTo(0, 0);
-          this.spinnerBlock = false;
-        });
-      } else {
-        this.AbrirJanelaManter(idUsuario);
+      // if (idUsuario > 0) {
+      this.http.ListarInstituicaoFinanceiraAtiva().subscribe((ret: InstituicaoFinanceiraModel[]) => {
+        // console.log(ret);
+        if (ret.length > 0) {
+          this.instituicoesFinanceiras = ret;
+          this.AbrirJanelaManter(idUsuario);
+        }
         this.spinnerBlock = false;
-      }
-      
+      }, err => {
+        if (err.status === 401) {
+          this.routes.navigate(['/login']);
+        }
+        this.msgs = [];
+        this.msgs.push({severity: 'error', summary: 'Erro: ', detail: err.message + '. Contate o administrador.'});
+        scrollTo(0, 0);
+        this.spinnerBlock = false;
+      });
+      // } else {
+      //   this.AbrirJanelaManter(idUsuario);
+      //   this.spinnerBlock = false;
+      // }
+
     }
 
     ListarInstFinUsuario() {
@@ -146,6 +147,8 @@ export class IntFinUsrComponent implements OnInit {
             this.ConverteValor(this.instituicoesUsuario[i].ifuSaldo.toString(), 'Saldo', false);
           }
         }
+      } else {
+        this.instFinUsrEdit = new InstitFinancUsuarioModel();
       }
     }
 
@@ -208,7 +211,7 @@ export class IntFinUsrComponent implements OnInit {
           this.f.ifuLimit.setValue(ret);
         } else {
           this.f.ifuLimit.setValue('0');
-          console.log(ret);
+          // console.log(ret);
         }
       } else if (input === 'Saldo') {
         const ret = Utilitarios.CalculaMonetario(valor, insercao);
@@ -216,7 +219,7 @@ export class IntFinUsrComponent implements OnInit {
           this.f.ifuSaldo.setValue(ret);
         } else {
           this.f.ifuSaldo.setValue('0');
-          console.log(ret);
+          // console.log(ret);
         }
       }
     }
