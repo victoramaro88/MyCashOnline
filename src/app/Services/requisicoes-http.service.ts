@@ -7,6 +7,7 @@ import { DadosUsuEmailModel } from '../Models/usuarios/dadosusuemail.model';
 import { InstFinUsrCompletaModel } from '../Models/instFin/instFinUsrCompleta.model';
 import { InstituicaoFinanceiraModel } from '../Models/instFin/instituicaoFinanceira.model';
 import { InstitFinancUsuarioModel } from '../Models/instFin/instFinanUsuario.model';
+import { BandeiraCartaoModel } from '../Models/cartao/bandeiraCartao.model';
 
 @Injectable({
   providedIn: 'root'
@@ -120,5 +121,13 @@ export class RequisicoesHttpService {
         .set('Authorization',  `Bearer ${sessionStorage.getItem('tokenAcesso')}`)
       };
       return this.http.post<string>(`${environment.BASE_URL}/api/InstituicaoFinanceira/ManterInstitFinanc/`, dadosInstFin, header);
+    }
+
+    public ListarBandeiraCartao(idBandCart: number) {
+      const header = {
+        headers: new HttpHeaders()
+        .set('Authorization',  `Bearer ${sessionStorage.getItem('tokenAcesso')}`)
+      };
+      return this.http.get<BandeiraCartaoModel[]>(`${environment.BASE_URL}/api/BandeiraCartao/ListarBandeiraCartao/${idBandCart}`, header);
     }
   }

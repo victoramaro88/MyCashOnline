@@ -39,6 +39,7 @@ import { IntFinUsrComponent } from './Paginas/Cadastros/int-fin-usr/int-fin-usr.
 import { JanelaCancelarComponent } from './Paginas/Comuns/janela-cancelar/janela-cancelar.component';
 import { InstituicaoFinanceiraComponent } from './Paginas/Cadastros/instituicao-financeira/instituicao-financeira.component';
 import { EnviaEmailComponent } from './Paginas/Comuns/envia-email/envia-email.component';
+import { BandeiraCartaoComponent } from './Paginas/Cadastros/bandeira-cartao/bandeira-cartao.component';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -62,6 +63,7 @@ const maskConfig: Partial<IConfig> = {
     JanelaCancelarComponent,
     InstituicaoFinanceiraComponent,
     EnviaEmailComponent,
+    BandeiraCartaoComponent,
   ],
   imports: [
     BrowserModule,

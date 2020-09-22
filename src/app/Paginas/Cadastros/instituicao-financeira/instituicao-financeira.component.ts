@@ -1,3 +1,7 @@
+// tslint:disable: variable-name
+// tslint:disable: prefer-for-of
+// tslint:disable: no-trailing-whitespace
+// tslint:disable: member-ordering
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Message } from 'primeng/api/message';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -85,7 +89,6 @@ export class InstituicaoFinanceiraComponent implements OnInit {
       this.spinnerBlock = true;
       this.http.AlteraStatusInstFinanc(idInstFin, statusNovo).subscribe((ret: string) => {
         if (ret === 'OK') {
-          // tslint:disable-next-line: prefer-for-of
           for (let index = 0; index < this.instituicoesFinanceiras.length; index++) {
             if (this.instituicoesFinanceiras[index].ifCodi === idInstFin) {
               this.instituicoesFinanceiras[index].ifFlAt = statusNovo;
@@ -125,7 +128,7 @@ export class InstituicaoFinanceiraComponent implements OnInit {
 
     // ->Seleção de imagem.
     public imagePath;
-    imgURL: any; //Já em base64
+    imgURL: any; // ->Já em base64
     public message: string;
 
     preview(files) {
@@ -134,13 +137,13 @@ export class InstituicaoFinanceiraComponent implements OnInit {
         return;
       }
 
-      let mimeType = files[0].type;
+      const mimeType = files[0].type;
       if (mimeType.match(/image\/*/) == null) {
         this.message = 'Somente imagens são suportadas.';
         return;
       }
 
-      let reader = new FileReader();
+      const reader = new FileReader();
       this.imagePath = files;
       reader.readAsDataURL(files[0]);
       reader.onload = (_event) => {
@@ -152,10 +155,7 @@ export class InstituicaoFinanceiraComponent implements OnInit {
     tamanhoImagem: number;
     loadImg() {
       const img: HTMLImageElement = this.imgLogo.nativeElement;
-      // console.log('width: ' + img.width + ' / height: ' + img.height);
       this.tamanhoImagem = Utilitarios.CalculaTamanhoImagemBase64(this.imgURL);
-      // console.log('Retorno do Serviço: ' + this.tamanhoImagem);
-      // this.message = this.tamanhoImagem > 50 ? 'Imagem não pode ser maior que 50Kb.' : '';
 
       Utilitarios.RedimensionarImagem(this.imgURL, img.width, img.height).then(compressed => {
         this.imgURL = compressed;

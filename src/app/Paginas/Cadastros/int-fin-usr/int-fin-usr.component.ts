@@ -103,7 +103,7 @@ export class IntFinUsrComponent implements OnInit {
         if (ret === 'OK') {
           // tslint:disable-next-line: prefer-for-of
           for (let index = 0; index < this.instituicoesUsuario.length; index++) {
-            if(this.instituicoesUsuario[index].ifuCodi === idIFU) {
+            if (this.instituicoesUsuario[index].ifuCodi === idIFU) {
               this.instituicoesUsuario[index].ifuFlAt = statusNovo;
             }
           }
@@ -180,7 +180,8 @@ export class IntFinUsrComponent implements OnInit {
         if (ret.length > 0) {
           if (ret !== undefined && ret === 'OK') {
             this.msgs = [];
-            this.msgs.push({severity: 'success', summary: 'Dados ' + (instFinancUsuarioModel.ifuCodi > 0 ? 'atualizados' : 'inseridos') + ' com Sucesso!', detail: ''});
+            this.msgs.push({severity: 'success', summary: 'Dados ' +
+            (instFinancUsuarioModel.ifuCodi > 0 ? 'atualizados' : 'inseridos') + ' com Sucesso!', detail: ''});
             scrollTo(0, 0);
             setTimeout(() => {
               this.msgs = [];

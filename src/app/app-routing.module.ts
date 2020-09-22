@@ -11,6 +11,7 @@ import { EditarUsuarioComponent } from './Paginas/Cadastros/editar-usuario/edita
 import { IntFinUsrComponent } from './Paginas/Cadastros/int-fin-usr/int-fin-usr.component';
 import { InstituicaoFinanceiraComponent } from './Paginas/Cadastros/instituicao-financeira/instituicao-financeira.component';
 import { EnviaEmailComponent } from './Paginas/Comuns/envia-email/envia-email.component';
+import { BandeiraCartaoComponent } from './Paginas/Cadastros/bandeira-cartao/bandeira-cartao.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -26,6 +27,7 @@ const routes: Routes = [
     { path: 'editarUsuario', component: EditarUsuarioComponent },
     { path: 'instFin', component: InstituicaoFinanceiraComponent },
     { path: 'enviaMail', component: EnviaEmailComponent },
+    { path: 'bandeiraCartao', component: BandeiraCartaoComponent },
   ],
 },
 ];
