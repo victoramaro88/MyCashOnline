@@ -30,6 +30,13 @@ export class BandeiraCartaoComponent implements OnInit {
     private routes: Router,
     ) { }
 
+    CancelaOperacao() {
+      this.IniciaValidacaoForm();
+      this.manterRegistro = false;
+      this.imgURL = '';
+      // this.ListarInstituicoesFinanceiras(0); // ->IMPLEMENTAR ESSA FUNÇÃO!!!
+    }
+
     // ->Seleção de imagem.
     public imagePath;
     imgURL: any; // ->Já em base64
@@ -83,7 +90,7 @@ export class BandeiraCartaoComponent implements OnInit {
     });
   }
 
-  ManterBandeiraCartao() {
+  CadastrarBandeiraCartao() {
     this.manterRegistro = true;
     this.IniciaValidacaoForm();
     this.listaBandeiraCartao = new Array<BandeiraCartaoModel>();
@@ -121,4 +128,42 @@ export class BandeiraCartaoComponent implements OnInit {
       // console.log(this.f);
     }
   }
+
+  AlteraStatusBandCart(idBandCart: number, statusNovo: boolean) {
+
+    console.log('Implementar esta função!');
+
+    // this.spinnerBlock = true;
+    // this.http.AlteraStatusInstFinanc(idInstFin, statusNovo).subscribe((ret: string) => {
+    //   if (ret === 'OK') {
+    //     for (let index = 0; index < this.instituicoesFinanceiras.length; index++) {
+    //       if (this.instituicoesFinanceiras[index].ifCodi === idInstFin) {
+    //         this.instituicoesFinanceiras[index].ifFlAt = statusNovo;
+    //       }
+    //     }
+
+    //     scrollTo(0, 0);
+    //     this.msgs = [];
+    //     this.msgs.push({
+    //       severity: 'success',
+    //       summary: 'Sucesso! ',
+    //       detail: 'Instituição Financeira ' + (statusNovo ? 'Ativada' : 'Desativada') + ' com sucesso!'
+    //     });
+
+    //     setTimeout(() => {
+    //       this.msgs = [];
+    //     }, 3000);
+
+    //   } else {
+    //     console.log('Erro: ' + ret);
+    //   }
+    //   this.spinnerBlock = false;
+    // }, err => {
+    //   this.msgs = [];
+    //   this.msgs.push({severity: 'error', summary: 'Erro: ', detail: err.message + '. Contate o administrador.'});
+    //   scrollTo(0, 0);
+    //   this.spinnerBlock = false;
+    // });
+  }
+
 }
