@@ -1,3 +1,4 @@
+// tslint:disable: max-line-length
 // tslint:disable: variable-name
 // tslint:disable: prefer-for-of
 // tslint:disable: no-trailing-whitespace
@@ -154,12 +155,14 @@ export class InstituicaoFinanceiraComponent implements OnInit {
 
     tamanhoImagem: number;
     loadImg() {
-      const img: HTMLImageElement = this.imgLogo.nativeElement;
-      this.tamanhoImagem = Utilitarios.CalculaTamanhoImagemBase64(this.imgURL);
+      if (this.imgLogo !== undefined) {
+        const img: HTMLImageElement = this.imgLogo.nativeElement;
+        this.tamanhoImagem = Utilitarios.CalculaTamanhoImagemBase64(this.imgURL);
 
-      Utilitarios.RedimensionarImagem(this.imgURL, img.width, img.height).then(compressed => {
-        this.imgURL = compressed;
-      });
+        Utilitarios.RedimensionarImagem(this.imgURL, img.width, img.height).then(compressed => {
+          this.imgURL = compressed;
+        });
+      }
     }
     // ->Fim da seleção de imagem.
 

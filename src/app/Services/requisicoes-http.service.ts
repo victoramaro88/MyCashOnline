@@ -1,3 +1,5 @@
+// tslint:disable: no-trailing-whitespace
+// tslint:disable: max-line-length
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { InformacoesUsuarioModel } from '../Models/usuarios/informacoesUsuario.model';
@@ -129,5 +131,13 @@ export class RequisicoesHttpService {
         .set('Authorization',  `Bearer ${sessionStorage.getItem('tokenAcesso')}`)
       };
       return this.http.get<BandeiraCartaoModel[]>(`${environment.BASE_URL}/api/BandeiraCartao/ListarBandeiraCartao/${idBandCart}`, header);
+    }
+
+    public ManterBandeiraCartao(dadosBandeiraCartao: BandeiraCartaoModel) {
+      const header = {
+        headers: new HttpHeaders()
+        .set('Authorization',  `Bearer ${sessionStorage.getItem('tokenAcesso')}`)
+      };
+      return this.http.post<string>(`${environment.BASE_URL}/api/BandeiraCartao/ManterBandeiraCartao/`, dadosBandeiraCartao, header);
     }
   }

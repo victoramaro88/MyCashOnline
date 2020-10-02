@@ -75,6 +75,47 @@
         </div>
       </ng-template>
     </div>
+
+    <!-- CADASTRO DE NOVA BANDEIRA DE CARTÃO -->
+    <div *ngIf="manterRegistro">
+      <form [formGroup]="formCadastro" #cadastroForm="ngForm">
+        <div class="form-row">
+
+          <div class="form-group col-12">
+            <label for="inputDescricao">Descrição<span class="asteriscoObrigatorio">&nbsp;*</span></label>
+            <input type="text" class="form-control" id="inputDescricao" placeholder="Descrição" formControlName="bcDesc" required [ngClass]="{ 'is-invalid': (submitted || f.bcDesc.touched)  && f.bcDesc.errors }">
+            <div *ngIf="(submitted || f.bcDesc.touched) && f.bcDesc.errors" class="invalid-feedback">
+              <div *ngIf="f.bcDesc.errors.required">
+                Descrição obrigatória!
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group col-sm-8">
+            <label for="inputGroupFile01">Imagem</label>
+            <div class="custom-file">
+              <!-- <input id="inputGroupFile01" #file type="file" accept='image/*' class="custom-file-input" (change)="preview(file.files)" formControlName="ifImg" [ngClass]="{ 'is-invalid': tamanhoImagem > 50 }"> -->
+              <input id="inputGroupFile01" #file type="file" accept='image/*' class="custom-file-input" (change)="preview(file.files)" formControlName="bcImg">
+              <label class="custom-file-label" for="inputGroupFile01">{{!file.files[0] ? 'Selecione...' : file.files[0].name}}</label>
+              <!-- <label class="mensagemErroObrigatorio">{{message}}</label> -->
+            </div>
+          </div>
+          <div class="form-group col-sm-4 text-center">
+            <img #imgLogoBC (load)="loadImg($event)" *ngIf="imgURL" [src]="imgURL" height="100">
+          </div>
+        </div>
+
+        <small style="color: rgb(187, 187, 187); font-size: 0.7em;"><span class="asteriscoObrigatorio">*&nbsp;</span>Campos obrigatórios.</small><br>
+
+        <!-- BOTÕES -->
+        <div class="text-right pb-4">
+          <button (click)="ManterRegistro()" type="button" class="btn btn-primary btn-sm">Salvar</button>
+          &nbsp;
+          <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalSair">Cancelar</button>
+        </div>
+      </form>
+    </div>
+
     </div>
   </div>
 
