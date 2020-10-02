@@ -140,4 +140,13 @@ export class RequisicoesHttpService {
       };
       return this.http.post<string>(`${environment.BASE_URL}/api/BandeiraCartao/ManterBandeiraCartao/`, dadosBandeiraCartao, header);
     }
+
+    public AlteraStatusBandeiraCartao(idBandeiraCartao: number, statusNovo: boolean) {
+      const header = {
+        headers: new HttpHeaders()
+        .set('Authorization',  `Bearer ${sessionStorage.getItem('tokenAcesso')}`)
+      };
+      return this.http.get<string>(`${environment.BASE_URL}/api/BandeiraCartao/AlteraStatusBandeiraCartao/${idBandeiraCartao}/${statusNovo}/`, header);
+    }
+
   }

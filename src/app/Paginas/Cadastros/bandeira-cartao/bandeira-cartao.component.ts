@@ -134,43 +134,39 @@ export class BandeiraCartaoComponent implements OnInit {
 
     // -> IMPLEMENTAR ESSA FUNÇÃO!!!
     AlteraStatusBandCart(idBandCart: number, statusNovo: boolean) {
+      this.spinnerBlock = true;
+      this.http.AlteraStatusBandeiraCartao(idBandCart, statusNovo).subscribe((ret: string) => {
+        if (ret === 'OK') {
+          for (let index = 0; index < this.listaBandeiraCartao.length; index++) {
+            if (this.listaBandeiraCartao[index].bcCodi === idBandCart) {
+              this.listaBandeiraCartao[index].bcFlAt = statusNovo;
+            }
+          }
 
-      console.log('Implementar esta função!');
+          scrollTo(0, 0);
+          this.msgs = [];
+          this.msgs.push({
+            severity: 'success',
+            summary: 'Sucesso! ',
+            detail: 'Bandeira de Cartão ' + (statusNovo ? 'Ativada' : 'Desativada') + ' com sucesso!'
+          });
 
-      // this.spinnerBlock = true;
-      // this.http.AlteraStatusInstFinanc(idInstFin, statusNovo).subscribe((ret: string) => {
-      //   if (ret === 'OK') {
-      //     for (let index = 0; index < this.instituicoesFinanceiras.length; index++) {
-      //       if (this.instituicoesFinanceiras[index].ifCodi === idInstFin) {
-      //         this.instituicoesFinanceiras[index].ifFlAt = statusNovo;
-      //       }
-      //     }
+          setTimeout(() => {
+            this.msgs = [];
+          }, 3000);
 
-      //     scrollTo(0, 0);
-      //     this.msgs = [];
-      //     this.msgs.push({
-      //       severity: 'success',
-      //       summary: 'Sucesso! ',
-      //       detail: 'Instituição Financeira ' + (statusNovo ? 'Ativada' : 'Desativada') + ' com sucesso!'
-      //     });
-
-      //     setTimeout(() => {
-      //       this.msgs = [];
-      //     }, 3000);
-
-      //   } else {
-      //     console.log('Erro: ' + ret);
-      //   }
-      //   this.spinnerBlock = false;
-      // }, err => {
-      //   this.msgs = [];
-      //   this.msgs.push({severity: 'error', summary: 'Erro: ', detail: err.message + '. Contate o administrador.'});
-      //   scrollTo(0, 0);
-      //   this.spinnerBlock = false;
-      // });
+        } else {
+          console.log('Erro: ' + ret);
+        }
+        this.spinnerBlock = false;
+      }, err => {
+        this.msgs = [];
+        this.msgs.push({severity: 'error', summary: 'Erro: ', detail: err.message + '. Contate o administrador.'});
+        scrollTo(0, 0);
+        this.spinnerBlock = false;
+      });
     }
 
-    // -> IMPLEMENTAR ESSA FUNÇÃO!!!
     ManterRegistro() {
       this.submitted = true;
       if (this.formCadastro.invalid || this.tamanhoImagem > 50) {
@@ -188,7 +184,7 @@ export class BandeiraCartaoComponent implements OnInit {
       // console.log(bandCartObj);
 
       this.http.ManterBandeiraCartao(bandCartObj).subscribe((ret: string) => {
-        console.log(ret);
+        // console.log(ret);
         if (ret.length > 0) {
           if (ret !== undefined && ret === 'OK') {
             this.msgs = [];
