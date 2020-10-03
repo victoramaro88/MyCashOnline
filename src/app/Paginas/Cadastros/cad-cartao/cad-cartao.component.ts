@@ -87,15 +87,20 @@ export class CadCartaoComponent implements OnInit {
         carLimit: [''],
         carDiaVenc: ['', Validators.required],
         carSald: ['', Validators.required],
-        carFlAt: ['']
+        carFlAt: [''],
+
+        ifDesc: [''],
+        ifImg: [''],
+        bcDesc: [''],
+        bcImg: ['']
+
       });
     }
 
-    // -> ALTERAR O SERVIÇO PARA RECEBER TOKEN DE AUTORIZAÇÃO!!!
     ListarCartaoByIdUsr(idCarCodi: number) {
       this.spinnerBlock = true;
       this.http.ListarCartaoByIdUsuario(+sessionStorage.getItem('idUsuario')).subscribe((ret: CartaoUsuarioModel[]) => {
-        // console.log(ret);
+        console.log(ret);
         if (ret.length > 0) {
           this.listaCartaoUsuario = ret;
           this.AbrirJanelaManter(idCarCodi);
@@ -126,7 +131,10 @@ export class CadCartaoComponent implements OnInit {
           this.f.carDiaVenc.setValue(this.listaCartaoUsuario[i].carDiaVenc);
           this.f.carSald.setValue(this.listaCartaoUsuario[i].carSald);
           this.f.carFlAt.setValue(this.listaCartaoUsuario[i].carFlAt);
-          console.log('Listando:');
+          this.f.ifDesc.setValue(this.listaCartaoUsuario[i].ifDesc);
+          this.f.ifImg.setValue(this.listaCartaoUsuario[i].ifImg);
+          this.f.bcDesc.setValue(this.listaCartaoUsuario[i].bcDesc);
+          this.f.bcImg.setValue(this.listaCartaoUsuario[i].bcImg);
           console.log(this.f);
         }
       }
@@ -145,9 +153,40 @@ export class CadCartaoComponent implements OnInit {
       this.listaCartaoUsuario = new Array<CartaoUsuarioModel>();
     }
 
-    // -> IMPLEMENTAR AINDA!!!
+    // -> VERIFICAR SE A BANDEIRA OU A INSTITUIÇÃO ESTÁ INATIVA PARA MOSTRAR NA GRID (IGUAL NA INSTIT FIN USR)!!!
     AlteraStatusCartUsr(carCodi: number, novoStatus: boolean) {
       console.log('carCodi: ' + carCodi + ' / novoStatus: ' + novoStatus);
+      this.spinnerBlock = true;
+      this.http.AlteraStatusCartaoUsr(carCodi, novoStatus).subscribe((ret: string) => {
+        if (ret === 'OK') {
+          for (let index = 0; index < this.listaCartaoUsuario.length; index++) {
+            if (this.listaCartaoUsuario[index].carCodi === carCodi) {
+              this.listaCartaoUsuario[index].carFlAt = novoStatus;
+            }
+          }
+
+          scrollTo(0, 0);
+          this.msgs = [];
+          this.msgs.push({
+            severity: 'success',
+            summary: 'Sucesso! ',
+            detail: 'Cartão ' + (novoStatus ? 'Ativado' : 'Desativado') + ' com sucesso!'
+          });
+
+          setTimeout(() => {
+            this.msgs = [];
+          }, 3000);
+
+        } else {
+          console.log('Erro: ' + ret);
+        }
+        this.spinnerBlock = false;
+      }, err => {
+        this.msgs = [];
+        this.msgs.push({severity: 'error', summary: 'Erro: ', detail: err.message + '. Contate o administrador.'});
+        scrollTo(0, 0);
+        this.spinnerBlock = false;
+      });
     }
 
   }

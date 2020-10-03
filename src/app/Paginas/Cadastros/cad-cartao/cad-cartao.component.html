@@ -37,7 +37,7 @@
             </ng-template>
             <ng-template pTemplate="header" let-columns>
               <tr style="font-size: 13px;" class="text-center">
-                <th>Imagem</th>
+                <th>Bandeira / Instituição</th>
                 <th pSortableColumn="carDesc">Descrição<p-sortIcon field="carDesc"></p-sortIcon></th>
                 <th>Status</th>
                 <th>Opções</th>
@@ -45,7 +45,12 @@
             </ng-template>
             <ng-template pTemplate="body" let-cartUsr>
               <tr class="text-center" style="font-size: 0.8em;">
-                <!-- <td><span class="ui-column-title">Imagem</span> <img alt="Imagem" src="{{bandCart.bcImg.length > 0 ? 'data:image/png;base64,' + bandCart.bcImg : 'assets/Imagens/NoPhoto.png'}}" width="40px" style="vertical-align: middle" /></td> -->
+                <td>
+                  <span class="ui-column-title">Bandeira / Instituição</span>
+                  <img alt="Imagem" src="{{cartUsr.bcImg.length > 0 ? 'data:image/png;base64,' + cartUsr.bcImg : 'assets/Imagens/NoPhoto.png'}}" width="40px" style="vertical-align: middle" />
+                  &nbsp; / &nbsp;
+                  <img alt="Imagem" src="{{cartUsr.ifImg.length > 0 ? 'data:image/png;base64,' + cartUsr.ifImg : 'assets/Imagens/NoPhoto.png'}}" width="40px" style="vertical-align: middle" />
+                </td>
                 <td pSortableColumn="bcDesc"> <span class="ui-column-title">Descrição<p-sortIcon field="bcDesc"></p-sortIcon></span> {{cartUsr.carDesc}}</td>
                 <td pSortableColumn="bcFlAt" style.color="{{cartUsr.carFlAt ? 'green' : 'red'}}"> <span style="color: black;" class="ui-column-title">Status<p-sortIcon field="carFlAt"></p-sortIcon></span> {{cartUsr.carFlAt ? 'Ativa' : 'Inativa'}}</td>
                 <td>

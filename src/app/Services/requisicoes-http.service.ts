@@ -158,4 +158,12 @@ export class RequisicoesHttpService {
       return this.http.get<CartaoUsuarioModel[]>(`${environment.BASE_URL}/api/Cartao/ListarCartoesByIdUsuario/${idCartUsr}`, header);
     }
 
+    public AlteraStatusCartaoUsr(idCartao: number, statusNovo: boolean) {
+      const header = {
+        headers: new HttpHeaders()
+        .set('Authorization',  `Bearer ${sessionStorage.getItem('tokenAcesso')}`)
+      };
+      return this.http.get<string>(`${environment.BASE_URL}/api/Cartao/AlteraStatusCartaoUsr/${idCartao}/${statusNovo}/`, header);
+    }
+
   }

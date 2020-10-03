@@ -8,4 +8,9 @@ export class CartaoUsuarioModel {
   carDiaVenc: number;
   carSald: number;
   carFlAt: boolean;
+
+  ifDesc: string;
+  ifImg: string;
+  bcDesc: string;
+  bcImg: string;
 }
