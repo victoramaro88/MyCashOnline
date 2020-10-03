@@ -132,7 +132,6 @@ export class BandeiraCartaoComponent implements OnInit {
       }
     }
 
-    // -> IMPLEMENTAR ESSA FUNÇÃO!!!
     AlteraStatusBandCart(idBandCart: number, statusNovo: boolean) {
       this.spinnerBlock = true;
       this.http.AlteraStatusBandeiraCartao(idBandCart, statusNovo).subscribe((ret: string) => {

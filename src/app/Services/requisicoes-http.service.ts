@@ -10,6 +10,7 @@ import { InstFinUsrCompletaModel } from '../Models/instFin/instFinUsrCompleta.mo
 import { InstituicaoFinanceiraModel } from '../Models/instFin/instituicaoFinanceira.model';
 import { InstitFinancUsuarioModel } from '../Models/instFin/instFinanUsuario.model';
 import { BandeiraCartaoModel } from '../Models/cartao/bandeiraCartao.model';
+import { CartaoUsuarioModel } from '../Models/cartao/cartaoUsuario.model';
 
 @Injectable({
   providedIn: 'root'
@@ -147,6 +148,14 @@ export class RequisicoesHttpService {
         .set('Authorization',  `Bearer ${sessionStorage.getItem('tokenAcesso')}`)
       };
       return this.http.get<string>(`${environment.BASE_URL}/api/BandeiraCartao/AlteraStatusBandeiraCartao/${idBandeiraCartao}/${statusNovo}/`, header);
+    }
+
+    public ListarCartaoByIdUsuario(idCartUsr: number) {
+      const header = {
+        headers: new HttpHeaders()
+        .set('Authorization',  `Bearer ${sessionStorage.getItem('tokenAcesso')}`)
+      };
+      return this.http.get<CartaoUsuarioModel[]>(`${environment.BASE_URL}/api/Cartao/ListarCartoesByIdUsuario/${idCartUsr}`, header);
     }
 
   }
