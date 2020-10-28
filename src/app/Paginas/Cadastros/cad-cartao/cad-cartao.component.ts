@@ -7,6 +7,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Message } from 'primeng/api/message';
+import { BandeiraCartaoModel } from 'src/app/Models/cartao/bandeiraCartao.model';
 import { CartaoUsuarioModel } from 'src/app/Models/cartao/cartaoUsuario.model';
 import { RequisicoesHttpService } from 'src/app/Services/requisicoes-http.service';
 import { Utilitarios } from 'src/app/Services/utilitarios';
@@ -24,6 +25,7 @@ export class CadCartaoComponent implements OnInit {
   formCadastro: FormGroup;
   submitted = false;
   manterRegistro = false;
+  listaBandeiraCartao: BandeiraCartaoModel[] = [];
 
   constructor(
     private http: RequisicoesHttpService,
@@ -80,8 +82,8 @@ export class CadCartaoComponent implements OnInit {
     IniciaValidacaoForm() {
       this.formCadastro = this.formBuilder.group({
         carCodi: [''],
-        bcCodi: [''],
-        ifCodi: [''],
+        bcCodi: ['', Validators.required],
+        ifCodi: ['', Validators.required],
         usuCodi: [''],
         carDesc: ['', Validators.required],
         carLimit: [''],
@@ -106,6 +108,27 @@ export class CadCartaoComponent implements OnInit {
           this.AbrirJanelaManter(idCarCodi);
         }
         this.spinnerBlock = false;
+      }, err => {
+        if (err.status === 401) {
+          this.routes.navigate(['/login']);
+        }
+        this.msgs = [];
+        this.msgs.push({severity: 'error', summary: 'Erro: ', detail: err.message + '. Contate o administrador.'});
+        scrollTo(0, 0);
+        this.spinnerBlock = false;
+      });
+    }
+
+    ListarBandeiraCartao(idBandCart: number) {
+      this.spinnerBlock = true;
+      this.http.ListarBandeiraCartao(idBandCart).subscribe((ret: BandeiraCartaoModel[]) => {
+        if (ret.length > 0) {
+          // console.log(ret);
+          this.listaBandeiraCartao = ret;
+          this.AbrirJanelaManter(idBandCart);
+        }
+        this.spinnerBlock = false;
+        console.log(this.listaBandeiraCartao);
       }, err => {
         if (err.status === 401) {
           this.routes.navigate(['/login']);
@@ -151,6 +174,7 @@ export class CadCartaoComponent implements OnInit {
       this.manterRegistro = true;
       this.IniciaValidacaoForm();
       this.listaCartaoUsuario = new Array<CartaoUsuarioModel>();
+      this.ListarBandeiraCartao(0);
     }
 
     // -> VERIFICAR SE A BANDEIRA OU A INSTITUIÇÃO ESTÁ INATIVA PARA MOSTRAR NA GRID (IGUAL NA INSTIT FIN USR)!!!
@@ -189,4 +213,7 @@ export class CadCartaoComponent implements OnInit {
       });
     }
 
+    ManterRegistro() {
+      console.log('Implementar essa Jéba!!!');
+    }
   }

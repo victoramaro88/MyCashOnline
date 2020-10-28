@@ -83,6 +83,62 @@
   </div>
 </div>
 
+<!-- CADASTRO DE NOVO CARTÃO -->
+<div *ngIf="manterRegistro">
+  <form [formGroup]="formCadastro" #cadastroForm="ngForm">
+    <div class="form-row">
+
+      <div class="form-group col-12">
+        <label for="inputDescricao">Descrição<span class="asteriscoObrigatorio">&nbsp;*</span></label>
+        <input type="text" class="form-control" id="inputDescricao" placeholder="Descrição" formControlName="carDesc" required [ngClass]="{ 'is-invalid': (submitted || f.carDesc.touched)  && f.carDesc.errors }">
+        <div *ngIf="(submitted || f.carDesc.touched) && f.carDesc.errors" class="invalid-feedback">
+          <div *ngIf="f.carDesc.errors.required">
+            Descrição obrigatória!
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group col-xl-3 col-md-5 col-sm-4">
+        <label for="inputBandeiraCartao">Bandeira do Cartão<span class="asteriscoObrigatorio">&nbsp;*</span></label>
+        <select placeholder="Selecione" id="inputBandeiraCartao" class="form-control" formControlName="bcCodi" required [ngClass]="{ 'is-invalid': (submitted || f.bcCodi.touched)  && f.bcCodi.errors }">
+          <option value="" disabled selected>Selecione</option>
+          <option [value]="bandCart.bcCodi" *ngFor="let bandCart of listaBandeiraCartao">
+            <img alt="Imagem" src="{{bandCart.bcImg.length > 0 ? 'data:image/png;base64,' + bandCart.bcImg : '../../../../assets/Imagens/NoPhoto.png'}}" width="10px" style="vertical-align: middle" />
+             {{bandCart.bcDesc}}
+          </option>
+        </select>
+        <div *ngIf="(submitted || f.bcCodi.touched) && f.bcCodi.errors" class="invalid-feedback">
+          <div *ngIf="f.bcCodi.errors.required">
+            Bandeira obrigatória!
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group col-sm-8">
+        <label for="inputGroupFile01">Imagem</label>
+        <div class="custom-file">
+          <!-- <input id="inputGroupFile01" #file type="file" accept='image/*' class="custom-file-input" (change)="preview(file.files)" formControlName="ifImg" [ngClass]="{ 'is-invalid': tamanhoImagem > 50 }"> -->
+          <input id="inputGroupFile01" #file type="file" accept='image/*' class="custom-file-input" (change)="preview(file.files)" formControlName="bcImg">
+          <label class="custom-file-label" for="inputGroupFile01">{{!file.files[0] ? 'Selecione...' : file.files[0].name}}</label>
+          <!-- <label class="mensagemErroObrigatorio">{{message}}</label> -->
+        </div>
+      </div>
+      <div class="form-group col-sm-4 text-center">
+        <img #imgLogoBC (load)="loadImg($event)" *ngIf="imgURL" [src]="imgURL" height="100">
+      </div>
+    </div>
+
+    <small style="color: rgb(187, 187, 187); font-size: 0.7em;"><span class="asteriscoObrigatorio">*&nbsp;</span>Campos obrigatórios.</small><br>
+
+    <!-- BOTÕES -->
+    <div class="text-right pb-4">
+      <button (click)="ManterRegistro()" type="button" class="btn btn-primary btn-sm">Salvar</button>
+      &nbsp;
+      <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalSair">Cancelar</button>
+    </div>
+  </form>
+</div>
+
 <!-- Modal Sair -->
 <div style="color: black;" class="modal fade" id="modalSair" tabindex="-1" role="dialog" aria-labelledby="modalParaSair" aria-hidden="true">
   <div class="modal-dialog" role="document">
